@@ -61,6 +61,23 @@ fn logging(json: bool) {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
+    // The release pipeline runs these with no server configuration.
+    match cli.command {
+        Some(Command::Keygen) => {
+            let (private, public) = dot_home::updates::keygen();
+            println!("DOT_UPDATE_SIGNING_KEY (keep secret, add to CI secrets): {private}");
+            println!("DOT_UPDATE_PUBLIC_KEYS (build-time, public): {public}");
+            return Ok(());
+        }
+        Some(Command::SignManifest { manifest }) => {
+            let key =
+                std::env::var("DOT_UPDATE_SIGNING_KEY").context("set DOT_UPDATE_SIGNING_KEY")?;
+            let bytes = std::fs::read(&manifest)?;
+            println!("{}", dot_home::updates::sign_manifest(&bytes, &key)?);
+            return Ok(());
+        }
+        _ => {}
+    }
     let config = Config::load(cli.config.as_deref())?;
     logging(config.json_logs);
     match cli.command.unwrap_or(Command::Serve) {
@@ -68,19 +85,7 @@ async fn main() -> anyhow::Result<()> {
             dot_home::updates::launch(&config.data_dir, &std::env::args().collect::<Vec<_>>());
             serve(config).await
         }
-        Command::Keygen => {
-            let (private, public) = dot_home::updates::keygen();
-            println!("DOT_UPDATE_SIGNING_KEY (keep secret, add to CI secrets): {private}");
-            println!("DOT_UPDATE_PUBLIC_KEYS (build-time, public): {public}");
-            Ok(())
-        }
-        Command::SignManifest { manifest } => {
-            let key =
-                std::env::var("DOT_UPDATE_SIGNING_KEY").context("set DOT_UPDATE_SIGNING_KEY")?;
-            let bytes = std::fs::read(&manifest)?;
-            println!("{}", dot_home::updates::sign_manifest(&bytes, &key)?);
-            Ok(())
-        }
+        Command::Keygen | Command::SignManifest { .. } => unreachable!("handled above"),
         Command::Health => {
             use tokio::io::{AsyncReadExt, AsyncWriteExt};
             let port = config.bind.port();
