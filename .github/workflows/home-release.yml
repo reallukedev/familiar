@@ -1,5 +1,5 @@
 # Dot Home releases.
-#   nightly: every push to home-server. Rolling "nightly" pre-release + ghcr :nightly.
+#   nightly: every push to main. Rolling "nightly" pre-release + ghcr :nightly.
 #   stable:  every tag vX.Y.Z. A normal release + ghcr :latest and :X.Y.Z.
 # Each release carries the server binary, the macOS agent and a manifest.json signed with
 # DOT_UPDATE_SIGNING_KEY; servers only install manifests signed by the key baked into
@@ -8,7 +8,7 @@
 name: Dot Home release
 on:
   push:
-    branches: [home-server]
+    branches: [main]
     tags: ["v*"]
   workflow_dispatch:
 permissions:

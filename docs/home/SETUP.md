@@ -164,7 +164,7 @@ Familiar updates itself from this repository's GitHub releases. **Admin > Softwa
 Update** sets the channel for the server and the default for every Mac's agent:
 
 - **Stable**: tagged releases (`vX.Y.Z`). The default.
-- **Nightly**: a build of every push to `home-server`. Newest changes; may break.
+- **Nightly**: a build of every push to `main`. Newest changes; may break.
 - **Off**: never checks.
 
 Server updates install in a two-hour window you choose (3:00 to 5:00 AM by default),
@@ -186,7 +186,7 @@ cargo run -p dot-home -- keygen
 ```
 
 Add the printed private key as the Actions secret `DOT_UPDATE_SIGNING_KEY` and the
-public key as the Actions variable `DOT_UPDATE_PUBLIC_KEYS`. Pushes to `home-server`
+public key as the Actions variable `DOT_UPDATE_PUBLIC_KEYS`. Pushes to `main`
 then publish the `nightly` release and `ghcr.io/<owner>/familiar/dot-home:nightly`;
 tags like `v0.3.1` (matching `crates/dot-home/Cargo.toml`) publish a stable release and
 `:latest`. Use the published image in `compose.yaml` (`image:` instead of `build:`) so
