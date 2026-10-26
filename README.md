@@ -1,6 +1,8 @@
-# Familiar
-
-**Give your AI assistant its own Mac, and stay in charge of what it does there.**
+<div align="center">
+  <img src="docs/images/familiar-icon.png" alt="Familiar's icon: a white Mac with cat ears and glowing eyes" width="160">
+  <h1>Familiar</h1>
+  <p><strong>Give your AI assistant its own Mac, and stay in charge of what it does there.</strong></p>
+</div>
 
 Familiar is a self-hosted server for a shared home server. Everyone who signs in gets a
 private macOS virtual machine, and their assistant (Claude, ChatGPT, Claude Code or any
