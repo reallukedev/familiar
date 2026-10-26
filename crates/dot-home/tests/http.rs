@@ -990,15 +990,21 @@ async fn the_whole_flow() {
     .await;
     assert_eq!(st, StatusCode::UNAUTHORIZED, "reuse revoked the grant");
 
-    // Updates: a local build can't verify signed updates, and says so; per-Mac channels save.
+    // Updates: a local build can't verify signed updates, and says so (CI builds carry the
+    // update key, so they can); per-Mac channels save.
     let up = owner.send("GET", "/api/admin/updates", None).await;
-    assert_eq!(up.json["enabled"], false);
-    assert!(
-        up.json["disabled_reason"]
-            .as_str()
-            .unwrap()
-            .contains("release pipeline")
-    );
+    if dot_home::updates::disabled_reason().is_some() {
+        assert_eq!(up.json["enabled"], false);
+        assert!(
+            up.json["disabled_reason"]
+                .as_str()
+                .unwrap()
+                .contains("release pipeline")
+        );
+    } else {
+        assert_eq!(up.json["enabled"], true);
+        assert!(up.json["disabled_reason"].is_null());
+    }
     // A server starts on the channel it was built from (CI builds nightly), else stable.
     assert_eq!(
         up.json["settings"]["channel"],
