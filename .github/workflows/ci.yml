@@ -1,0 +1,45 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  rust:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    # Hosted runners do not have the Mac's external SSD configured in .cargo/config.toml.
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/target
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --all --check
+      # dot-guest drives macOS, so Linux checks the server and the protocol.
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+        if: runner.os == 'macOS'
+      - run: cargo clippy -p dot-home -p dot-wire --all-targets --locked -- -D warnings
+        if: runner.os == 'Linux'
+      - run: cargo test --workspace --locked
+        if: runner.os == 'macOS'
+      - run: cargo test -p dot-home -p dot-wire --locked
+        if: runner.os == 'Linux'
+
+  home-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: home-web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: home-web/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run test:unit
+      - run: npm run build

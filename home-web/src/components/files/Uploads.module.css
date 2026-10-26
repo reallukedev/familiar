@@ -1,0 +1,95 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: calc(var(--row-min) + 8px);
+  padding: var(--row-pad-y) 8px var(--row-pad-y) var(--row-pad-x);
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+.row:last-child {
+  box-shadow: none;
+}
+.text {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+.name {
+  display: flex;
+  min-width: 0;
+  white-space: nowrap;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+}
+.head {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+/* pre, so a space where the name splits isn't dropped at the flex edge. */
+.tail {
+  flex: none;
+  white-space: pre;
+}
+.status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--label-2);
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  overflow-wrap: anywhere;
+}
+.failed {
+  color: var(--red-text);
+}
+.check {
+  flex: none;
+  color: var(--green-text);
+}
+.track {
+  position: relative;
+  display: block;
+  height: 4px;
+  max-width: 420px;
+  border-radius: 2px;
+  background: var(--fill-strong);
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--blue);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  transition: transform 200ms var(--ease-out);
+}
+.indeterminate {
+  right: auto;
+  width: 32%;
+  transform: none;
+  animation: slide 1.3s var(--ease-in-out) infinite;
+}
+@keyframes slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(320%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .indeterminate {
+    width: 100%;
+    animation: none;
+    opacity: 0.45;
+  }
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+}

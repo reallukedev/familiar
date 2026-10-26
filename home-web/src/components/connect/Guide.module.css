@@ -1,0 +1,131 @@
+.guide {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 4px 0 6px;
+}
+.guide code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+}
+.needs {
+  margin-top: -4px;
+}
+.steps {
+  display: grid;
+  gap: 16px;
+  margin: 4px 0 0;
+  padding-left: 24px;
+  list-style: decimal;
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  min-width: 0;
+}
+.steps li::marker {
+  color: var(--label-2);
+  font-variant-numeric: tabular-nums;
+}
+.step {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.step strong {
+  font-weight: 600;
+}
+.token {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  min-width: 0;
+}
+.token > :first-child {
+  justify-self: stretch;
+}
+.token > span:first-child {
+  justify-self: start;
+  max-width: 100%;
+}
+/* Long assistant names wrap instead of running past the card on small phones. */
+.token > span:first-child > button {
+  max-width: 100%;
+  padding-block: 6px;
+  white-space: normal;
+  text-align: center;
+}
+
+/* How to tell it worked: one quiet line with a check, set apart from the steps. */
+.check {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--green) 10%, transparent);
+  color: var(--label);
+}
+.check > svg {
+  margin-top: 2px;
+  color: var(--green);
+}
+
+.trouble {
+  min-width: 0;
+}
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 8px 0 2px;
+  margin-left: -2px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--tint-text);
+  font: 500 var(--fs-subhead) / var(--lh-subhead) var(--font);
+}
+:global(.mac) .toggle {
+  min-height: 28px;
+}
+.toggle:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+.chevron {
+  transition: transform 200ms var(--ease-out);
+}
+.toggle[data-panel-open] .chevron {
+  transform: rotate(90deg);
+}
+.panel {
+  overflow: hidden;
+  /* A disclosure has no transform equivalent, so this one animates its height. */
+  height: var(--collapsible-panel-height);
+  transition: height 220ms var(--ease-out);
+}
+.panel[data-starting-style],
+.panel[data-ending-style] {
+  height: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .panel {
+    transition: none;
+  }
+}
+.problems {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 2px 0 6px;
+}
+.problem {
+  display: grid;
+  gap: 2px;
+}
+.problem dd {
+  margin: 0;
+}

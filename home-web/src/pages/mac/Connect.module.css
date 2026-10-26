@@ -1,0 +1,25 @@
+.created {
+  display: grid;
+  gap: 14px;
+  padding: 8px 0;
+  min-width: 0;
+}
+.choice {
+  display: grid;
+  gap: 6px;
+}
+.choice > span {
+  padding: 0 4px;
+  font-weight: 500;
+}
+
+/* The assistant menu fits its longest name, so switching never shifts the row. */
+.picker {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: var(--row-pad-x);
+}
+.picker > button {
+  min-width: 150px;
+  justify-content: space-between;
+}

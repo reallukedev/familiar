@@ -1,0 +1,102 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  /* Long choices ("Use Server Setting (Stable)") ellipsize instead of crushing the row's title. */
+  max-width: 46vw;
+  padding: 0 4px 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--label-2);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  white-space: nowrap;
+}
+.trigger:active {
+  background: var(--fill);
+}
+.trigger:disabled {
+  color: var(--label-disabled);
+}
+.value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.icon {
+  flex: none;
+  color: var(--label-3);
+}
+.list {
+  display: grid;
+  margin-top: 8px;
+  background: var(--bg-cell);
+  border-radius: var(--radius-cell);
+  overflow: hidden;
+}
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 0;
+  background: var(--bg-cell);
+  color: var(--label);
+  text-align: left;
+  font: inherit;
+  position: relative;
+}
+/* Inset separators that start at the text, as in grouped lists. */
+.option:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 16px;
+  height: 0.5px;
+  background: var(--separator);
+}
+.option:active {
+  background: var(--bg-cell-pressed);
+}
+.option:focus-visible {
+  outline-offset: -3px;
+}
+.text {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.label {
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+}
+.detail {
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  text-wrap: pretty;
+}
+.check {
+  display: flex;
+  flex: none;
+  width: 20px;
+  color: var(--blue);
+}
+/* Sheets are already #1c1c1e in dark mode; their cells sit one step up, as in iOS. */
+@media (prefers-color-scheme: dark) {
+:global(:root:not([data-theme='light'])) .list,
+:global(:root:not([data-theme='light'])) .option {
+    background: #2c2c2e;
+  }
+:global(:root:not([data-theme='light'])) .option:active {
+    background: #3a3a3c;
+  }
+}
+:global(:root[data-theme='dark']) .list,
+:global(:root[data-theme='dark']) .option {
+    background: #2c2c2e;
+  }
+:global(:root[data-theme='dark']) .option:active {
+    background: #3a3a3c;
+  }

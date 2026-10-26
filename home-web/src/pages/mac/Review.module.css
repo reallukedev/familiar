@@ -1,0 +1,198 @@
+.filters {
+  max-width: 320px;
+  margin-top: 8px;
+}
+.loading {
+  margin-top: var(--group-gap);
+}
+
+/* Session header: who, then when and how many on a quieter line. */
+.head {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.headMeta {
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  color: var(--label-2);
+}
+.toolbarPicker {
+  width: 220px;
+}
+
+/* Mac list line: icon, what, the detail, when, then ✕ ✓. */
+.line {
+  display: grid;
+  grid-template-columns: 22px 200px minmax(0, 1fr) 120px auto;
+  align-items: center;
+  column-gap: 14px;
+  min-height: 44px;
+  padding: 6px var(--row-pad-x);
+  background: var(--bg-cell);
+  transition: background-color 120ms ease;
+}
+.line + .line {
+  box-shadow: inset 0 0.5px 0 var(--separator);
+}
+@media (hover: hover) and (pointer: fine) {
+  .line:hover {
+    background: var(--bg-cell-hover);
+  }
+}
+.lineIcon {
+  display: flex;
+}
+.lineIcon > * {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+.lineIcon svg {
+  width: 13px;
+  height: 13px;
+}
+.lineTitle {
+  font: 500 var(--fs-body) / var(--lh-body) var(--font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lineSummary {
+  color: var(--label-2);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lineTime {
+  text-align: right;
+  color: var(--label-3);
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  white-space: nowrap;
+}
+.lineActions {
+  display: inline-flex;
+  gap: 6px;
+}
+.round {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fill);
+  color: var(--label-2);
+  cursor: default;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+.round:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.round:disabled {
+  opacity: 0.4;
+}
+/* Accept is the expected answer, so its checkmark wears the accent color. */
+.yes {
+  color: var(--tint);
+}
+@media (hover: hover) and (pointer: fine) {
+  .yes:not(:disabled):hover {
+    background: var(--tint);
+    color: var(--on-tint);
+  }
+  .no:not(:disabled):hover {
+    background: var(--red);
+    color: #fff;
+  }
+}
+.yes:not(:disabled):active {
+  background: var(--tint);
+  color: var(--on-tint);
+}
+.no:not(:disabled):active {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Rows wrap summaries instead of truncating: these are what the owner checks. */
+.row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.summary {
+  display: block;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.note {
+  display: block;
+  margin-top: 2px;
+  color: var(--label);
+  overflow-wrap: anywhere;
+}
+.time {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--fs-footnote);
+  line-height: var(--lh-footnote);
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: var(--row-pad-x);
+}
+
+/* Done: a small filled circle, green for accepted, red for declined. */
+.verdict {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  color: #fff;
+}
+.accepted {
+  background: var(--green);
+}
+.declined {
+  background: var(--red);
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+/* The shared TextArea is a code editor; a note is prose. */
+.form textarea,
+:global(.mac) .form textarea {
+  min-height: 84px;
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
+.lineNote {
+  color: var(--label);
+}
+.lineStatus {
+  min-width: 52px;
+  color: var(--label-3);
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  white-space: nowrap;
+  text-align: right;
+}
+.line > .verdict {
+  width: 18px;
+  height: 18px;
+  margin: 0 2px;
+}

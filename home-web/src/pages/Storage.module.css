@@ -1,0 +1,96 @@
+.stack {
+  display: grid;
+  min-width: 0;
+}
+.stack > :first-child {
+  margin-top: 0;
+}
+.banner {
+  margin-bottom: 4px;
+}
+
+/* Summary: the big "x of y used" line, the bar and its legend. */
+.summary {
+  display: grid;
+  gap: 12px;
+  padding: 4px 0;
+  min-width: 0;
+}
+.volume {
+  margin: 0;
+  font: 400 var(--fs-headline) / var(--lh-headline) var(--font);
+}
+:global(.mac) .volume {
+  font-size: 15px;
+}
+.usedLine {
+  margin: 0 0 0 auto;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+}
+.summaryLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.used {
+  margin: 0;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+}
+.usedValue {
+  font: 700 var(--fs-title2) / var(--lh-title2) var(--font-display);
+  letter-spacing: -0.01em;
+}
+.overText {
+  color: var(--red-text);
+  font-weight: 600;
+}
+.limitKey {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.limitTick {
+  width: 2px;
+  height: 12px;
+  border-radius: 1px;
+  background: var(--label);
+}
+
+/* A Mac's row: its screen as the icon, then size and ⓘ at the end. */
+.thumb {
+  display: block;
+  width: 44px;
+}
+.rowEnd {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: var(--row-pad-x);
+}
+.info {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--tint);
+  cursor: default;
+}
+@media (hover: hover) and (pointer: fine) {
+  .info:hover {
+    background: var(--fill);
+  }
+}
+.info:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.sheetBar {
+  padding: 4px 2px 0;
+}

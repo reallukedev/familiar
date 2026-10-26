@@ -1,0 +1,13 @@
+.form {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+}
+.code {
+  display: grid;
+  gap: 6px;
+}
+.code > span {
+  padding: 0 4px;
+  font-weight: 500;
+}

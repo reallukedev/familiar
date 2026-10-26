@@ -1,0 +1,32 @@
+.spinner {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  color: currentColor;
+}
+.spinner i {
+  position: absolute;
+  left: 45%;
+  top: 0;
+  width: 10%;
+  height: 28%;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: 50% 178%;
+  animation: fade 0.8s linear infinite;
+  opacity: 0.25;
+}
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner i {
+    animation: none;
+    opacity: 0.55;
+  }
+}

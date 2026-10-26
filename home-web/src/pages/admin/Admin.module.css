@@ -1,0 +1,76 @@
+.gap {
+  margin-top: var(--group-gap);
+}
+.host {
+  margin-top: 6px;
+  padding: 0 4px;
+  overflow-wrap: anywhere;
+}
+.only {
+  display: block;
+}
+:global(.mac) .only {
+  display: none;
+}
+.meters {
+  display: grid;
+  gap: 18px;
+  padding: 4px 0;
+}
+.sheet {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+  min-width: 0;
+}
+.sheet > section {
+  margin-top: 0;
+}
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field > span {
+  padding: 0 4px;
+  font-weight: 500;
+}
+.build {
+  display: grid;
+  gap: 10px;
+}
+.buildHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.buildAction {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.budget {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.budgetField {
+  flex: 1;
+  min-width: 0;
+}
+.steps {
+  display: grid;
+  gap: 12px;
+  padding-left: 20px;
+  list-style: decimal;
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  text-wrap: pretty;
+}
+.steps li::marker {
+  color: var(--label-2);
+  font-variant-numeric: tabular-nums;
+}
+.commands {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}

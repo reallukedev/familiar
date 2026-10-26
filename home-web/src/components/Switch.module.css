@@ -1,0 +1,86 @@
+/* The iOS switch; the desktop shell scales it to the macOS size. */
+.switch {
+  position: relative;
+  flex: none;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+  border-radius: 999px;
+  background: var(--track-off);
+  transition: background-color 250ms ease;
+  cursor: pointer;
+  /* A 44 pt hit target around the visible track. */
+  outline-offset: 3px;
+}
+.switch::before {
+  content: '';
+  position: absolute;
+  inset: -7px -2px;
+}
+.green[data-checked] {
+  background: var(--green);
+}
+.orange[data-checked] {
+  background: var(--orange);
+}
+.switch[data-disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+.switch:focus-visible {
+  outline: 3px solid var(--focus);
+  border-radius: 999px;
+}
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow-knob);
+  transition:
+    transform 320ms var(--ease-ios),
+    width 180ms var(--ease-out);
+}
+.thumb[data-checked] {
+  transform: translateX(20px);
+}
+.switch:not([data-disabled]):active .thumb {
+  width: 33px;
+}
+.switch:not([data-disabled]):active .thumb[data-checked] {
+  transform: translateX(14px);
+}
+
+:global(.mac) .switch {
+  width: 38px;
+  height: 22px;
+}
+:global(.mac) .thumb {
+  width: 18px;
+  height: 18px;
+}
+:global(.mac) .thumb[data-checked] {
+  transform: translateX(16px);
+}
+:global(.mac) .switch:not([data-disabled]):active .thumb {
+  width: 22px;
+}
+:global(.mac) .switch:not([data-disabled]):active .thumb[data-checked] {
+  transform: translateX(12px);
+}
+@media (pointer: coarse) {
+  :global(.mac) .switch {
+    width: 51px;
+    height: 31px;
+  }
+  :global(.mac) .thumb {
+    width: 27px;
+    height: 27px;
+  }
+  :global(.mac) .thumb[data-checked] {
+    transform: translateX(20px);
+  }
+}

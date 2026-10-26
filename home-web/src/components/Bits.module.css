@@ -1,0 +1,215 @@
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 999px;
+  background: #8e8e93;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.avatar-small {
+  width: 28px;
+  height: 28px;
+  font-size: 11px;
+}
+.avatar-regular {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+}
+.avatar-large {
+  width: 64px;
+  height: 64px;
+  font-size: 24px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 999px;
+  background: currentColor;
+}
+.tone-green .dot {
+  background: var(--green);
+}
+.tone-orange {
+  color: var(--orange-text);
+}
+.tone-orange .dot {
+  background: var(--orange);
+}
+.tone-red {
+  color: var(--red-text);
+}
+.tone-red .dot {
+  background: var(--red);
+}
+.tone-gray .dot {
+  background: var(--gray);
+}
+.tone-blue .dot {
+  background: var(--blue);
+}
+.pulse {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font: 600 12px/18px var(--font);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.pill-green {
+  background: color-mix(in srgb, var(--green) 18%, transparent);
+  color: var(--green-text);
+}
+.pill-orange {
+  background: color-mix(in srgb, var(--orange) 20%, transparent);
+  color: var(--orange-text);
+}
+.pill-red {
+  background: color-mix(in srgb, var(--red) 16%, transparent);
+  color: var(--red-text);
+}
+.pill-gray {
+  background: var(--fill);
+  color: var(--label-2);
+}
+.pill-blue {
+  background: color-mix(in srgb, var(--blue) 15%, transparent);
+  color: var(--blue-text);
+}
+
+.badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: #fff;
+  font: 600 12px/1 var(--font);
+  font-variant-numeric: tabular-nums;
+}
+.badge-red {
+  background: var(--red);
+}
+.badge-sidebar {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--fill-strong);
+  color: var(--label-2);
+  font-size: 11px;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-cell);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.banner-orange {
+  background: color-mix(in srgb, var(--orange) 13%, var(--bg-cell));
+}
+.banner-orange .bannerIcon {
+  color: var(--orange);
+}
+.banner-red {
+  background: color-mix(in srgb, var(--red) 10%, var(--bg-cell));
+}
+.banner-red .bannerIcon {
+  color: var(--red);
+}
+.banner-blue {
+  background: color-mix(in srgb, var(--blue) 9%, var(--bg-cell));
+}
+.banner-blue .bannerIcon {
+  color: var(--blue);
+}
+.banner-gray {
+  background: var(--bg-cell);
+}
+.banner-gray .bannerIcon {
+  color: var(--label-2);
+}
+.bannerIcon {
+  display: flex;
+  flex: none;
+  padding-top: 1px;
+}
+.bannerText {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 200px;
+  min-width: 0;
+  text-wrap: pretty;
+}
+.bannerAction {
+  display: flex;
+  gap: 8px;
+  align-self: center;
+  flex-wrap: wrap;
+}
+
+/* ContentUnavailableView: a large plain symbol, a bold title and one line,
+   centered in the space the content would have used. */
+.empty {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: min(60vh, 520px);
+  padding: 32px 16px;
+  text-align: center;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.emptyIcon {
+  display: flex;
+  margin-bottom: 10px;
+  color: var(--label-3);
+}
+.emptyFamiliar {
+  margin-bottom: 14px;
+}
+.emptyTitle {
+  font: 700 var(--fs-title2) / var(--lh-title2) var(--font-display);
+  letter-spacing: -0.01em;
+}
+:global(.mac) .emptyTitle {
+  font: 700 17px/22px var(--font-display);
+}
+.emptyText {
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  color: var(--label-2);
+}
+:global(.mac) .emptyText {
+  font-size: 13px;
+  line-height: 18px;
+}
+.emptyAction {
+  margin-top: 8px;
+}

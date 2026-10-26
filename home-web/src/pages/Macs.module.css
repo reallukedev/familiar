@@ -1,0 +1,237 @@
+.loading {
+  display: grid;
+  gap: 24px;
+  padding-top: 8px;
+}
+.approvals {
+  margin: 4px 0 32px;
+  min-width: 0;
+}
+.approvalList {
+  display: grid;
+  gap: 10px;
+}
+.hero {
+  display: grid;
+  gap: 18px;
+  padding-top: 8px;
+  min-width: 0;
+}
+@media (min-width: 1080px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.8fr) minmax(260px, 1fr);
+    align-items: center;
+    gap: 36px;
+  }
+}
+.heroDisplay {
+  display: block;
+  border-radius: 20px;
+  transition: transform 200ms var(--ease-out);
+}
+.heroDisplay:active {
+  transform: scale(0.99);
+}
+.heroDisplay:focus-visible {
+  outline-offset: 4px;
+}
+.heroText {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 4px;
+}
+.heroTitle {
+  display: grid;
+  gap: 4px;
+}
+.heroTitle h2 {
+  overflow-wrap: anywhere;
+}
+.heroLink {
+  color: inherit;
+}
+.heroActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.others {
+  margin-top: 40px;
+  min-width: 0;
+}
+.othersTitle {
+  padding: 0 2px 12px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
+  gap: 28px 20px;
+}
+.tile {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 12px;
+  outline-offset: 4px;
+}
+.tile:hover {
+  text-decoration: none;
+}
+.tileDisplay {
+  display: block;
+  transition: transform 220ms var(--ease-out), filter 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .tileDisplay {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.16));
+  }
+}
+.tile:active .tileDisplay {
+  transform: scale(0.985);
+  transition-duration: 80ms;
+}
+.tileText {
+  display: grid;
+  gap: 1px;
+  padding: 0 2px;
+  min-width: 0;
+}
+.tileName {
+  font: 600 var(--fs-body) / var(--lh-body) var(--font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileBadge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tileDisplay {
+    transition: none;
+  }
+  .tile:hover .tileDisplay {
+    transform: none;
+  }
+}
+.rowDisplay {
+  display: block;
+  width: 64px;
+}
+:global(.mac) .others {
+  margin-top: 40px;
+  min-width: 0;
+}
+.othersTitle {
+  padding: 0 2px 12px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
+  gap: 28px 20px;
+}
+.tile {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 12px;
+  outline-offset: 4px;
+}
+.tile:hover {
+  text-decoration: none;
+}
+.tileDisplay {
+  display: block;
+  transition: transform 220ms var(--ease-out), filter 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .tileDisplay {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.16));
+  }
+}
+.tile:active .tileDisplay {
+  transform: scale(0.985);
+  transition-duration: 80ms;
+}
+.tileText {
+  display: grid;
+  gap: 1px;
+  padding: 0 2px;
+  min-width: 0;
+}
+.tileName {
+  font: 600 var(--fs-body) / var(--lh-body) var(--font);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tileBadge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tileDisplay {
+    transition: none;
+  }
+  .tile:hover .tileDisplay {
+    transform: none;
+  }
+}
+.rowDisplay {
+  width: 56px;
+}
+
+.first {
+  display: grid;
+  gap: 28px;
+  justify-items: center;
+  padding: clamp(16px, 6vh, 64px) 0 32px;
+  text-align: center;
+}
+@media (min-width: 1080px) {
+  .first {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    text-align: left;
+    justify-items: stretch;
+    align-items: center;
+    gap: 48px;
+  }
+}
+.blank {
+  width: min(100%, 620px);
+  padding: clamp(5px, 1.1%, 12px);
+  border-radius: clamp(10px, 2%, 20px);
+  background: var(--bezel);
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-edge),
+    0 28px 50px -30px rgb(0 0 0 / 0.55);
+}
+.blankScreen {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  border-radius: clamp(3px, 0.6%, 7px);
+  background: #0b0b0d;
+  color: rgb(245 245 247 / 0.5);
+}
+.firstText {
+  display: grid;
+  gap: 12px;
+  max-width: 440px;
+}
+.firstText > div {
+  margin-top: 8px;
+}
+.locked {
+  margin-bottom: var(--group-gap);
+}

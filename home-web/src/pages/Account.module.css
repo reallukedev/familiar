@@ -1,0 +1,38 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 4px 0;
+  min-width: 0;
+}
+.profileText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.banner {
+  margin-top: var(--group-gap);
+}
+.inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+.danger {
+  margin-top: 44px;
+}
+.danger > section {
+  margin-top: 0;
+}
+.sheetForm {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+  min-width: 0;
+}

@@ -1,0 +1,101 @@
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 4px 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--label-2);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  white-space: nowrap;
+}
+:global(.mac) .trigger {
+  min-height: 22px;
+  padding: 0 4px 0 8px;
+  border-radius: 6px;
+  background: var(--bg-cell);
+  color: var(--label);
+  box-shadow:
+    0 0 0 0.5px var(--separator-strong),
+    0 1px 1px rgb(0 0 0 / 0.05);
+}
+@media (pointer: coarse) {
+  :global(.mac) .trigger {
+    min-height: 40px;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .trigger:not([data-disabled]):hover {
+    background: var(--fill);
+  }
+  :global(.mac) .trigger:not([data-disabled]):hover {
+    background: var(--bg-cell-hover);
+  }
+}
+.trigger[data-disabled] {
+  color: var(--label-disabled);
+}
+.icon {
+  display: flex;
+  color: var(--label-3);
+}
+.positioner {
+  z-index: 95;
+  outline: 0;
+}
+.popup {
+  min-width: max(var(--anchor-width), 180px);
+  padding: 5px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  backdrop-filter: saturate(180%) blur(28px);
+  box-shadow: var(--shadow-menu);
+  outline: 0;
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 150ms var(--ease-out),
+    opacity 120ms var(--ease-out);
+}
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+.list {
+  max-height: var(--available-height);
+  overflow-y: auto;
+}
+.item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 12px 0 6px;
+  border-radius: 6px;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  outline: 0;
+  cursor: default;
+}
+:global(.mac) .item {
+  min-height: 24px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .item {
+    min-height: 26px;
+  }
+}
+.item[data-highlighted] {
+  background: var(--blue);
+  color: #fff;
+}
+.check {
+  grid-column: 1;
+  display: flex;
+}
+.item > :last-child {
+  grid-column: 2;
+}

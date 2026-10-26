@@ -1,0 +1,183 @@
+# Dot Home releases.
+#   nightly: every push to home-server. Rolling "nightly" pre-release + ghcr :nightly.
+#   stable:  every tag vX.Y.Z. A normal release + ghcr :latest and :X.Y.Z.
+# Each release carries the server binary, the macOS agent and a manifest.json signed with
+# DOT_UPDATE_SIGNING_KEY; servers only install manifests signed by the key baked into
+# them (DOT_UPDATE_PUBLIC_KEYS, a repository variable). Make the pair once with
+# `dot-home keygen`.
+name: Dot Home release
+on:
+  push:
+    branches: [home-server]
+    tags: ["v*"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  packages: write
+concurrency:
+  group: home-release-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  DOT_UPDATE_REPOSITORY: ${{ github.repository }}
+  DOT_UPDATE_PUBLIC_KEYS: ${{ vars.DOT_UPDATE_PUBLIC_KEYS }}
+
+jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      channel: ${{ steps.v.outputs.channel }}
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        run: |
+          base=$(grep -m1 '^version' crates/dot-home/Cargo.toml | cut -d'"' -f2)
+          if [ "${GITHUB_REF_TYPE}" = tag ]; then
+            tag="${GITHUB_REF_NAME#v}"
+            [ "$tag" = "$base" ] || { echo "Tag $tag doesn't match crates/dot-home version $base" >&2; exit 1; }
+            echo "channel=stable" >> "$GITHUB_OUTPUT"; echo "version=$base" >> "$GITHUB_OUTPUT"
+          else
+            echo "channel=nightly" >> "$GITHUB_OUTPUT"
+            echo "version=$base-nightly.$(date -u +%Y%m%d%H%M).${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Require the update key
+        if: ${{ vars.DOT_UPDATE_PUBLIC_KEYS == '' }}
+        run: echo "::warning::DOT_UPDATE_PUBLIC_KEYS isn't set; these builds can't verify updates."
+
+  guest:
+    needs: meta
+    runs-on: macos-latest
+    env:
+      DOT_BUILD_VERSION: ${{ needs.meta.outputs.version }}
+      CARGO_TARGET_DIR: ${{ github.workspace }}/target
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-apple-darwin,aarch64-apple-darwin
+      - run: cargo test -p dot-guest -p dot-wire --locked
+      - run: sh scripts/build-guest.sh
+      # With a Developer ID certificate the agent keeps one identity across updates.
+      - name: Sign with Developer ID
+        if: ${{ env.MACOS_CERT_P12 != '' }}
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+        run: |
+          kc="$RUNNER_TEMP/sign.keychain-db"; pw=$(openssl rand -hex 16)
+          security create-keychain -p "$pw" "$kc"; security unlock-keychain -p "$pw" "$kc"
+          echo "$MACOS_CERT_P12" | base64 -d > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$kc" -P "$MACOS_CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$pw" "$kc"
+          security list-keychains -d user -s "$kc"
+          codesign --force --options runtime --timestamp --sign "$MACOS_SIGN_IDENTITY" --identifier dev.dot.guest target/guest/dot-guest
+      - run: target/guest/dot-guest --version | grep -F "$DOT_BUILD_VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: guest
+          path: target/guest/dot-guest
+
+  server:
+    needs: meta
+    runs-on: ubuntu-latest
+    container: rust:1.90-slim-trixie
+    env:
+      DOT_BUILD_VERSION: ${{ needs.meta.outputs.version }}
+      DOT_BUILD_COMMIT: ${{ github.sha }}
+      DOT_BUILD_CHANNEL: ${{ needs.meta.outputs.channel }}
+      CARGO_TARGET_DIR: /tmp/target
+    steps:
+      - run: apt-get update && apt-get install -y --no-install-recommends pkg-config cmake clang perl make git ca-certificates
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: cd home-web && npm ci --no-audit --no-fund && npm run check && npm run test:unit && npm run build
+      - run: cargo test -p dot-home -p dot-wire --locked
+      - run: cargo build --release --locked -p dot-home
+      - run: |
+          mkdir -p out && cp /tmp/target/release/dot-home out/dot-home-x86_64-linux
+          out/dot-home-x86_64-linux --version | grep -F "$DOT_BUILD_VERSION"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: out/dot-home-x86_64-linux
+
+  publish:
+    needs: [meta, guest, server]
+    runs-on: ubuntu-latest
+    env:
+      CHANNEL: ${{ needs.meta.outputs.channel }}
+      VERSION: ${{ needs.meta.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Write and sign the manifest
+        env:
+          DOT_UPDATE_SIGNING_KEY: ${{ secrets.DOT_UPDATE_SIGNING_KEY }}
+        run: |
+          set -eu
+          [ -n "$DOT_UPDATE_SIGNING_KEY" ] || { echo "Add the DOT_UPDATE_SIGNING_KEY secret (dot-home keygen)." >&2; exit 1; }
+          chmod +x dist/dot-home-x86_64-linux
+          tag=$([ "$CHANNEL" = stable ] && echo "v$VERSION" || echo nightly)
+          base="https://github.com/$GITHUB_REPOSITORY/releases/download/$tag"
+          size() { stat -c %s "$1"; }; sum() { sha256sum "$1" | cut -d' ' -f1; }
+          if [ "$CHANNEL" = stable ]; then notes=$(git tag -l --format='%(contents)' "v$VERSION"); else notes=$(git log -1 --format=%B); fi
+          jq -n --arg ch "$CHANNEL" --arg v "$VERSION" --arg c "$GITHUB_SHA" --arg at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg notes "$notes" --arg url "https://github.com/$GITHUB_REPOSITORY/releases/tag/$tag" \
+            --arg su "$base/dot-home-x86_64-linux" --arg ss "$(sum dist/dot-home-x86_64-linux)" --argjson sz "$(size dist/dot-home-x86_64-linux)" \
+            --arg gu "$base/dot-guest" --arg gs "$(sum dist/dot-guest)" --argjson gz "$(size dist/dot-guest)" \
+            '{schema: 1, channel: $ch, version: $v, commit: $c, published_at: $at, notes: $notes, url: $url,
+              server: {url: $su, sha256: $ss, size: $sz}, guest: {url: $gu, sha256: $gs, size: $gz}}' > dist/manifest.json
+          dist/dot-home-x86_64-linux sign-manifest dist/manifest.json > dist/manifest.json.sig
+          echo "tag=$tag" >> "$GITHUB_ENV"
+      - name: Publish the release
+        run: |
+          set -eu
+          if [ "$CHANNEL" = nightly ]; then
+            gh release delete nightly --yes --cleanup-tag 2>/dev/null || true
+            git tag -f nightly "$GITHUB_SHA" && git push -f origin nightly
+            gh release create nightly --prerelease --title "Nightly $VERSION" --notes "Built from $GITHUB_SHA. May break." \
+              dist/dot-home-x86_64-linux dist/dot-guest dist/manifest.json dist/manifest.json.sig
+          else
+            gh release create "$tag" --verify-tag --title "Dot Home $VERSION" --notes-from-tag \
+              dist/dot-home-x86_64-linux dist/dot-guest dist/manifest.json dist/manifest.json.sig
+          fi
+
+  image:
+    needs: [meta, publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - id: tags
+        run: |
+          repo="ghcr.io/$(echo "$GITHUB_REPOSITORY" | tr '[:upper:]' '[:lower:]')/dot-home"
+          if [ "${{ needs.meta.outputs.channel }}" = stable ]; then
+            echo "tags=$repo:latest,$repo:${{ needs.meta.outputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tags=$repo:nightly,$repo:nightly-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          build-args: |
+            DOT_BUILD_VERSION=${{ needs.meta.outputs.version }}
+            DOT_BUILD_COMMIT=${{ github.sha }}
+            DOT_BUILD_CHANNEL=${{ needs.meta.outputs.channel }}
+            DOT_UPDATE_REPOSITORY=${{ github.repository }}
+            DOT_UPDATE_PUBLIC_KEYS=${{ vars.DOT_UPDATE_PUBLIC_KEYS }}

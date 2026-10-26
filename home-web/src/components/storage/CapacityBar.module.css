@@ -1,0 +1,141 @@
+/*
+ * Storage kinds, in fixed order (validated for color vision deficiency with
+ * the dataviz palette checker, light and dark): disks take the system blue,
+ * snapshots a magenta, saved memory a teal. Text never wears these colors.
+ */
+.root,
+.swatch {
+  --kind-1: var(--blue);
+  --kind-2: #c2459b;
+  --kind-3: #1baf7a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .root,
+  :root:not([data-theme='light']) .swatch {
+    --kind-2: #d8609f;
+    --kind-3: #0f8a60;
+  }
+}
+:root[data-theme='dark'] .root,
+:root[data-theme='dark'] .swatch {
+  --kind-2: #d8609f;
+  --kind-3: #0f8a60;
+}
+
+.root {
+  min-width: 0;
+}
+
+.track {
+  position: relative;
+  border-radius: 999px;
+  background: var(--fill);
+}
+.large .track {
+  height: 32px;
+  border-radius: 7px;
+}
+/* As in macOS Settings › Storage: a tall bar with gently rounded ends. */
+:global(.mac) .large .track {
+  height: 40px;
+  border-radius: 8px;
+}
+.thin .track {
+  height: 6px;
+}
+
+.fill {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  animation: reveal 700ms var(--ease-out) both;
+}
+
+.segment {
+  flex: 0 0 var(--w);
+  min-width: 4px;
+  height: 100%;
+  transition: flex-basis 320ms var(--ease-out);
+}
+
+/* A hairline of the surface between runs, so neighbours never touch. */
+.segment:not(:last-child) {
+  padding-inline-end: 1px;
+  background-clip: content-box;
+}
+
+.mark {
+  position: absolute;
+  inset-block: -4px;
+  left: var(--at);
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--label);
+  box-shadow: 0 0 0 1.5px var(--bg-cell);
+}
+.thin .mark {
+  inset-block: -3px;
+}
+
+@keyframes reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    animation: none;
+  }
+  .segment {
+    transition: none;
+  }
+}
+
+.tone-disk {
+  background-color: var(--kind-1);
+}
+.tone-snapshots,
+.tone-images {
+  background-color: var(--kind-2);
+}
+.tone-memory {
+  background-color: var(--kind-3);
+}
+.tone-other,
+.tone-system {
+  background-color: var(--gray);
+}
+.tone-free {
+  background-color: var(--fill-strong);
+}
+
+.swatch {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  color: var(--label-2);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.legendLabel {
+  color: var(--label);
+}

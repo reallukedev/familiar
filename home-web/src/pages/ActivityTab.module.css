@@ -1,0 +1,20 @@
+.loading {
+  margin-top: var(--group-gap);
+}
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 44vw;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--tint);
+  font: 400 17px/22px var(--font);
+}
+.switcherName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

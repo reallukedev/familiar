@@ -1,0 +1,214 @@
+.section {
+  margin-top: var(--group-gap);
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px 8px;
+  min-height: 0;
+}
+.title {
+  min-width: 0;
+}
+:global(.mac) .head {
+  /* Same height with or without an accessory, so side-by-side sections line up. */
+  align-items: flex-end;
+  min-height: 29px;
+  padding: 0 2px 7px;
+}
+.cells {
+  background: var(--bg-cell);
+  border-radius: var(--radius-cell);
+  overflow: hidden;
+  min-width: 0;
+}
+:global(.mac) .cells {
+  box-shadow: 0 0 0 0.5px var(--separator);
+}
+.foot {
+  padding: 8px 16px 0;
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+:global(.mac) .foot {
+  padding: 7px 2px 0;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--row-min);
+  padding: 0 0 0 var(--row-pad-x);
+  margin: 0;
+  border: 0;
+  background: var(--bg-cell);
+  color: var(--label);
+  text-align: left;
+  text-decoration: none;
+  font: inherit;
+  transition: background-color 350ms var(--ease-out);
+}
+.row.top {
+  align-items: flex-start;
+}
+.row.highlight {
+  background: color-mix(in srgb, var(--blue) 9%, var(--bg-cell));
+}
+.interactive {
+  cursor: pointer;
+}
+.interactive:hover {
+  text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .interactive:not(:disabled):hover {
+    background: var(--bg-cell-hover);
+    transition-duration: 0ms;
+  }
+}
+.interactive:not(:disabled):active {
+  background: var(--bg-cell-pressed);
+  transition: none;
+}
+.interactive:focus-visible {
+  outline-offset: -3px;
+  border-radius: var(--radius-cell);
+}
+.leading {
+  display: flex;
+  flex: none;
+  align-self: center;
+}
+.top .leading {
+  align-self: flex-start;
+  margin-top: var(--row-pad-y);
+}
+.main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  min-height: inherit;
+  padding: var(--row-pad-y) var(--row-pad-x) var(--row-pad-y) 0;
+  /* Separators start at the text, as in inset grouped lists. */
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+.top .main {
+  align-items: flex-start;
+}
+.cells > :last-child .main,
+.cells > :last-child > .row .main {
+  box-shadow: none;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.rowTitle {
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  letter-spacing: var(--track-body);
+  overflow-wrap: anywhere;
+}
+.subtitle {
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  letter-spacing: -0.008em;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.tone-tint {
+  color: var(--tint-text);
+}
+.tone-destructive {
+  color: var(--red-text);
+}
+.row:disabled .rowTitle,
+.disabled .rowTitle {
+  color: var(--label-disabled);
+}
+.value {
+  flex: none;
+  max-width: 50%;
+  text-align: right;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  overflow-wrap: anywhere;
+}
+.trailing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+.chevron {
+  display: flex;
+  color: var(--label-3);
+  opacity: 0.75;
+  margin-right: -4px;
+}
+:global(.mac) .chevron {
+  opacity: 0.6;
+}
+@media (hover: hover) and (pointer: fine) {
+  .interactive:hover .chevron {
+    opacity: 1;
+  }
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  color: #fff;
+}
+:global(.mac) .tile {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+}
+.tile-blue {
+  background: var(--blue);
+}
+.tile-green {
+  background: var(--green);
+}
+.tile-orange {
+  background: var(--orange);
+}
+.tile-red {
+  background: var(--red);
+}
+.tile-gray {
+  background: var(--gray);
+}
+.tile-indigo {
+  background: var(--indigo);
+}
+
+.cellText {
+  padding: 12px var(--row-pad-x);
+  color: var(--label-2);
+  text-wrap: pretty;
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+.cells > .cellText:last-child {
+  box-shadow: none;
+}
+.cellBody {
+  padding: 14px var(--row-pad-x);
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+  min-width: 0;
+}
+.cells > .cellBody:last-child {
+  box-shadow: none;
+}

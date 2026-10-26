@@ -1,0 +1,215 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control-h);
+  min-width: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--radius-control);
+  font: 600 var(--fs-headline) / var(--lh-headline) var(--font);
+  letter-spacing: var(--track-body);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 160ms ease,
+    opacity 160ms ease;
+}
+.full {
+  width: 100%;
+}
+.large {
+  min-height: 50px;
+  font-size: 17px;
+  line-height: 22px;
+}
+.small {
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: var(--fs-subhead);
+}
+.button:not([data-disabled]):active {
+  transform: scale(0.97);
+}
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.label[data-hidden] {
+  visibility: hidden;
+}
+.spin {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.filled {
+  background: var(--tint);
+  color: var(--on-tint);
+}
+.tinted {
+  background: color-mix(in srgb, var(--tint) 15%, transparent);
+  color: var(--tint-text);
+}
+.gray {
+  background: var(--fill);
+  color: var(--label);
+}
+.plain {
+  background: transparent;
+  color: var(--tint-text);
+  font-weight: 400;
+}
+.destructive {
+  background: color-mix(in srgb, var(--red) 13%, transparent);
+  color: var(--red-text);
+}
+.destructive-filled {
+  background: var(--red);
+  color: #fff;
+}
+.on-dark {
+  background: rgb(255 255 255 / 0.16);
+  color: #fff;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Disabled controls are flat: no hover, no press. */
+.button[data-disabled]:not([aria-busy]) {
+  background: var(--fill);
+  color: var(--label-disabled);
+}
+.plain[data-disabled]:not([aria-busy]) {
+  background: transparent;
+}
+.button[aria-busy] {
+  cursor: progress;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filled:not([data-disabled]):hover {
+    background: color-mix(in srgb, var(--tint) 88%, #000);
+  }
+  .tinted:not([data-disabled]):hover {
+    background: color-mix(in srgb, var(--tint) 21%, transparent);
+  }
+  .gray:not([data-disabled]):hover,
+  .plain:not([data-disabled]):hover {
+    background: var(--fill-hover);
+  }
+  .destructive:not([data-disabled]):hover {
+    background: color-mix(in srgb, var(--red) 19%, transparent);
+  }
+  .destructive-filled:not([data-disabled]):hover {
+    background: color-mix(in srgb, var(--red) 88%, #000);
+  }
+  .on-dark:not([data-disabled]):hover {
+    background: rgb(255 255 255 / 0.24);
+  }
+}
+
+/* macOS push buttons: 28 px, 7 px corners, 13 pt medium label. */
+:global(.mac) .button:not(.large):not(.small) {
+  padding: 0 14px;
+  font-weight: 500;
+}
+:global(.mac) .plain {
+  font-weight: 400;
+}
+
+.icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tint);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 160ms ease;
+}
+.icon:not([data-disabled]):active {
+  transform: scale(0.94);
+}
+.icon[data-disabled] {
+  color: var(--label-disabled);
+}
+.icon-gray {
+  background: var(--fill);
+  color: var(--label-2);
+}
+.icon-on-dark {
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+}
+:global(.mac) .icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  color: var(--label-2);
+}
+@media (pointer: coarse) {
+  :global(.mac) .icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .icon:not([data-disabled]):hover {
+    background: var(--fill-hover);
+  }
+  .icon-on-dark:not([data-disabled]):hover {
+    background: rgb(255 255 255 / 0.22);
+  }
+}
+
+/* In a desktop toolbar, controls sit on glass capsules like Tahoe toolbar items. */
+:global(.mac) :global([data-toolbar]) .icon:not(.icon-on-dark) {
+  width: 34px;
+  height: 34px;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), 0 1px 2px rgb(0 0 0 / 0.05);
+  color: var(--label);
+}
+:global(.mac) :global([data-toolbar]) .button.gray,
+:global(.mac) :global([data-toolbar]) .button.plain {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-edge), 0 1px 2px rgb(0 0 0 / 0.05);
+  color: var(--label);
+}
+:global(.mac) :global([data-toolbar]) .button.filled,
+:global(.mac) :global([data-toolbar]) .button.tinted {
+  min-height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+}
+@media (hover: hover) and (pointer: fine) {
+  :global(.mac) :global([data-toolbar]) .icon:not(.icon-on-dark):not([data-disabled]):hover,
+  :global(.mac) :global([data-toolbar]) .button.gray:not([data-disabled]):hover,
+  :global(.mac) :global([data-toolbar]) .button.plain:not([data-disabled]):hover {
+    background: var(--glass-strong);
+  }
+}
+:global(.mac) :global([data-toolbar]) .icon[data-disabled] {
+  color: var(--label-disabled);
+}

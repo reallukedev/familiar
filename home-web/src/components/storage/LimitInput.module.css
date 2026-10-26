@@ -1,0 +1,80 @@
+/* A compact number field for the trailing edge of a row. */
+.control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: 116px;
+  min-height: 36px;
+  border-radius: 8px;
+  background: var(--fill);
+  box-shadow: inset 0 0 0 0 transparent;
+  transition: box-shadow 150ms ease;
+}
+:global(.mac) .control {
+  width: 104px;
+  min-height: 24px;
+  border-radius: 6px;
+  background: var(--bg-cell);
+  box-shadow:
+    inset 0 0 0 0.5px var(--separator-strong),
+    0 0.5px 1px rgb(0 0 0 / 0.04);
+}
+.control:focus-within {
+  box-shadow: inset 0 0 0 2px var(--tint);
+}
+:global(.mac) .control:focus-within {
+  box-shadow:
+    inset 0 0 0 0.5px var(--tint),
+    0 0 0 3.5px var(--focus);
+}
+.control[data-invalid] {
+  box-shadow: inset 0 0 0 1.5px var(--red);
+}
+:global(.mac) .control[data-invalid] {
+  box-shadow:
+    inset 0 0 0 1px var(--red),
+    0 0.5px 1px rgb(0 0 0 / 0.04);
+}
+.input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: inherit;
+  padding: 0 4px 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--label);
+  /* iOS zooms into fields under 16 px. */
+  font: 400 max(16px, var(--fs-body)) / var(--lh-body) var(--font);
+  text-align: right;
+  outline: 0;
+}
+:global(.mac) .input {
+  padding: 0 3px 0 8px;
+  font-size: var(--fs-body);
+}
+@media (pointer: coarse) {
+  :global(.mac) .control {
+    min-height: 36px;
+  }
+}
+.input:disabled {
+  color: var(--label-disabled);
+}
+.unit {
+  flex: none;
+  padding-right: 10px;
+  color: var(--label-2);
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  user-select: none;
+}
+:global(.mac) .unit {
+  padding-right: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    transition: none;
+  }
+}

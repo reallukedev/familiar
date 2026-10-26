@@ -1,0 +1,37 @@
+[package]
+name = "dot-guest"
+version = "0.3.0"
+description = "The Dot Home agent that runs inside each Mac and carries out the host's operations"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "dot-guest"
+path = "src/main.rs"
+
+[dependencies]
+dot-wire = { path = "../dot-wire" }
+anyhow.workspace = true
+base64.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tokio = { workspace = true }
+clap = { version = "4", features = ["derive"] }
+roxmltree = "0.21"
+rustix = { version = "1", features = ["process", "fs"] }
+sha2 = "0.10"
+socket2 = "0.6"
+tempfile = "3"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }
+
+[lints]
+workspace = true

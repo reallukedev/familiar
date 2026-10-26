@@ -1,0 +1,521 @@
+/* Familiar. Apple's semantic system for the web: iOS idiom on phones, macOS on wider windows. */
+:root {
+  color-scheme: light dark;
+
+  /* Grounds */
+  --bg: #f2f2f7;
+  --bg-cell: #ffffff;
+  --bg-cell-hover: #f5f5f7;
+  --bg-cell-pressed: #e5e5ea;
+  --bg-elevated: #ffffff;
+  --bg-window: #f5f5f7;
+  --bg-sidebar: rgb(232 232 237 / 0.78);
+  --bg-sidebar-solid: #e8e8ed;
+  --material: rgb(246 246 248 / 0.82);
+  --material-solid: #f6f6f8;
+  --material-line: rgb(0 0 0 / 0.1);
+  --scrim: rgb(0 0 0 / 0.32);
+
+  /* Labels. Secondary is darkened from iOS's to keep 4.5:1 on cells. */
+  --label: #000000;
+  --label-2: #6e6e73;
+  --label-3: #8e8e93;
+  --label-disabled: #aeaeb2;
+  --separator: rgb(60 60 67 / 0.2);
+  --separator-strong: rgb(60 60 67 / 0.29);
+  --fill: rgb(120 120 128 / 0.12);
+  --fill-strong: rgb(120 120 128 / 0.2);
+  --fill-hover: rgb(120 120 128 / 0.16);
+
+  /* System tints. Each means one thing: blue acts, green is on, orange needs attention, red destroys. */
+  --blue: #007aff;
+  --blue-text: #0066d6;
+  --green: #34c759;
+  --green-text: #248a3d;
+  --orange: #ff9500;
+  --orange-text: #b25000;
+  --red: #ff3b30;
+  --red-text: #d70015;
+  --indigo: #5856d6;
+  --gray: #8e8e93;
+  --track-off: #e9e9ea;
+  --tint: var(--blue);
+  --tint-text: var(--blue-text);
+  --on-tint: #ffffff;
+  --focus: rgb(0 122 255 / 0.55);
+
+  /* The Mac display: always dark, like the hardware. */
+  --bezel: #0d0d0f;
+  --bezel-edge: rgb(255 255 255 / 0.07);
+  --screen-off: #050506;
+
+  /* Type */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Text styles, iOS sizes by default; the desktop shell swaps in macOS sizes. */
+  --fs-large: 34px;
+  --lh-large: 41px;
+  --fs-title1: 28px;
+  --lh-title1: 34px;
+  --fs-title2: 22px;
+  --lh-title2: 28px;
+  --fs-title3: 20px;
+  --lh-title3: 25px;
+  --fs-headline: 17px;
+  --lh-headline: 22px;
+  --fs-body: 17px;
+  --lh-body: 22px;
+  --fs-subhead: 15px;
+  --lh-subhead: 20px;
+  --fs-footnote: 13px;
+  --lh-footnote: 18px;
+  --fs-caption: 12px;
+  --lh-caption: 16px;
+  --track-body: -0.022em;
+
+  /* Geometry */
+  --radius-cell: 12px;
+  --radius-control: 12px;
+  --radius-sheet: 14px;
+  --radius-inner: 9px;
+  --row-min: 44px;
+  --row-pad-y: 11px;
+  --row-pad-x: 16px;
+  --control-h: 50px;
+  --gutter: 16px;
+  --group-gap: 28px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* Motion: the iOS sheet and navigation curve, and a strong ease-out for UI. */
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --shadow-sheet: 0 10px 40px rgb(0 0 0 / 0.14), 0 2px 8px rgb(0 0 0 / 0.06);
+  --shadow-menu: 0 8px 28px rgb(0 0 0 / 0.16), 0 0 0 0.5px rgb(0 0 0 / 0.12);
+  --shadow-knob: 0 3px 8px rgb(0 0 0 / 0.15), 0 3px 1px rgb(0 0 0 / 0.06);
+  --shadow-thumb: 0 3px 8px rgb(0 0 0 / 0.12), 0 0 0 0.5px rgb(0 0 0 / 0.04);
+
+  /* Glass: the floating sidebar, toolbar capsules and the tab bar. A lit top
+     edge and a hairline outline do the work; the blur only softens what's behind. */
+  --glass: rgb(255 255 255 / 0.66);
+  --glass-strong: rgb(255 255 255 / 0.82);
+  --glass-edge: inset 0 0.5px 0 rgb(255 255 255 / 0.9), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+  --glass-shadow: 0 10px 30px rgb(0 0 0 / 0.07), 0 1px 3px rgb(0 0 0 / 0.06);
+  --glass-blur: saturate(180%) blur(28px);
+}
+
+/* Dark appearance: follows the system unless Settings picks Light or Dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --glass: rgb(48 48 52 / 0.58);
+    --glass-strong: rgb(52 52 56 / 0.82);
+    --glass-edge: inset 0 0.5px 0 rgb(255 255 255 / 0.14), 0 0 0 0.5px rgb(255 255 255 / 0.09);
+    --glass-shadow: 0 12px 34px rgb(0 0 0 / 0.42), 0 1px 3px rgb(0 0 0 / 0.3);
+    --bg: #000000;
+    --bg-cell: #1c1c1e;
+    --bg-cell-hover: #242426;
+    --bg-cell-pressed: #2c2c2e;
+    --bg-elevated: #1c1c1e;
+    --bg-window: #1e1e1e;
+    --bg-sidebar: rgb(40 40 42 / 0.74);
+    --bg-sidebar-solid: #28282a;
+    --material: rgb(30 30 32 / 0.78);
+    --material-solid: #1e1e20;
+    --material-line: rgb(255 255 255 / 0.1);
+    --scrim: rgb(0 0 0 / 0.55);
+    --label: #ffffff;
+    --label-2: #98989f;
+    --label-3: #7c7c82;
+    --label-disabled: #545458;
+    --separator: rgb(84 84 88 / 0.6);
+    --separator-strong: rgb(84 84 88 / 0.8);
+    --fill: rgb(120 120 128 / 0.24);
+    --fill-strong: rgb(120 120 128 / 0.36);
+    --fill-hover: rgb(120 120 128 / 0.3);
+    --blue: #0a84ff;
+    --blue-text: #409cff;
+    --green: #30d158;
+    --green-text: #30d158;
+    --orange: #ff9f0a;
+    --orange-text: #ffb340;
+    --red: #ff453a;
+    --red-text: #ff6961;
+    --indigo: #5e5ce6;
+    --track-off: #39393d;
+    --focus: rgb(10 132 255 / 0.7);
+    --shadow-sheet: 0 10px 40px rgb(0 0 0 / 0.6), 0 0 0 0.5px rgb(255 255 255 / 0.08);
+    --shadow-menu: 0 8px 28px rgb(0 0 0 / 0.5), 0 0 0 0.5px rgb(255 255 255 / 0.12);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --glass: rgb(48 48 52 / 0.58);
+  --glass-strong: rgb(52 52 56 / 0.82);
+  --glass-edge: inset 0 0.5px 0 rgb(255 255 255 / 0.14), 0 0 0 0.5px rgb(255 255 255 / 0.09);
+  --glass-shadow: 0 12px 34px rgb(0 0 0 / 0.42), 0 1px 3px rgb(0 0 0 / 0.3);
+
+  --bg: #000000;
+  --bg-cell: #1c1c1e;
+  --bg-cell-hover: #242426;
+  --bg-cell-pressed: #2c2c2e;
+  --bg-elevated: #1c1c1e;
+  --bg-window: #1e1e1e;
+  --bg-sidebar: rgb(40 40 42 / 0.74);
+  --bg-sidebar-solid: #28282a;
+  --material: rgb(30 30 32 / 0.78);
+  --material-solid: #1e1e20;
+  --material-line: rgb(255 255 255 / 0.1);
+  --scrim: rgb(0 0 0 / 0.55);
+  --label: #ffffff;
+  --label-2: #98989f;
+  --label-3: #7c7c82;
+  --label-disabled: #545458;
+  --separator: rgb(84 84 88 / 0.6);
+  --separator-strong: rgb(84 84 88 / 0.8);
+  --fill: rgb(120 120 128 / 0.24);
+  --fill-strong: rgb(120 120 128 / 0.36);
+  --fill-hover: rgb(120 120 128 / 0.3);
+  --blue: #0a84ff;
+  --blue-text: #409cff;
+  --green: #30d158;
+  --green-text: #30d158;
+  --orange: #ff9f0a;
+  --orange-text: #ffb340;
+  --red: #ff453a;
+  --red-text: #ff6961;
+  --indigo: #5e5ce6;
+  --track-off: #39393d;
+  --focus: rgb(10 132 255 / 0.7);
+  --shadow-sheet: 0 10px 40px rgb(0 0 0 / 0.6), 0 0 0 0.5px rgb(255 255 255 / 0.08);
+  --shadow-menu: 0 8px 28px rgb(0 0 0 / 0.5), 0 0 0 0.5px rgb(255 255 255 / 0.12);
+  }
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* Increased contrast: firmer separators and secondary text. */
+@media (prefers-contrast: more) {
+  :root {
+    --separator: rgb(60 60 67 / 0.45);
+    --label-2: #4a4a4f;
+    --material-line: rgb(0 0 0 / 0.3);
+  }
+}
+
+/* Reduced transparency: every material becomes solid. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --material: var(--material-solid);
+    --bg-sidebar: var(--bg-sidebar-solid);
+    --glass: var(--material-solid);
+    --glass-strong: var(--material-solid);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--label);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  letter-spacing: var(--track-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow-x: clip;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--blue) 28%, transparent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+[data-disabled] {
+  cursor: default;
+}
+
+input,
+textarea {
+  caret-color: var(--tint);
+}
+
+a {
+  color: var(--tint-text);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+}
+
+/* Scrollbars that belong to the palette, thin like macOS overlay scrollbars. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fill-strong) transparent;
+}
+
+/* Base UI hides native scrollbars on its own scroll areas; its inline <style>
+   is disabled for the strict CSP, so the rule lives here. */
+.base-ui-disable-scrollbar {
+  scrollbar-width: none;
+}
+.base-ui-disable-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Text styles */
+.t-large {
+  font: 700 var(--fs-large) / var(--lh-large) var(--font-display);
+  letter-spacing: -0.026em;
+}
+.t-title1 {
+  font: 700 var(--fs-title1) / var(--lh-title1) var(--font-display);
+  letter-spacing: -0.024em;
+}
+.t-title2 {
+  font: 700 var(--fs-title2) / var(--lh-title2) var(--font-display);
+  letter-spacing: -0.022em;
+}
+.t-title3 {
+  font: 600 var(--fs-title3) / var(--lh-title3) var(--font-display);
+  letter-spacing: -0.02em;
+}
+.t-headline {
+  font: 600 var(--fs-headline) / var(--lh-headline) var(--font);
+  letter-spacing: var(--track-body);
+}
+.t-body {
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  letter-spacing: var(--track-body);
+}
+.t-subhead {
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  letter-spacing: -0.012em;
+}
+.t-footnote {
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  letter-spacing: -0.004em;
+}
+.t-caption {
+  font: 400 var(--fs-caption) / var(--lh-caption) var(--font);
+  letter-spacing: 0;
+}
+.secondary {
+  color: var(--label-2);
+}
+.text-red {
+  color: var(--red-text);
+}
+.text-orange {
+  color: var(--orange-text);
+}
+.text-green {
+  color: var(--green-text);
+}
+.balance {
+  text-wrap: balance;
+}
+.pretty {
+  text-wrap: pretty;
+}
+
+/*
+ * The macOS idiom. The desktop shell sets this class on its root; sizes follow
+ * the macOS type ramp (13 pt body). Touch tablets keep finger-sized targets.
+ */
+.mac {
+  --fs-large: 26px;
+  --lh-large: 32px;
+  --fs-title1: 22px;
+  --lh-title1: 28px;
+  --fs-title2: 17px;
+  --lh-title2: 22px;
+  --fs-title3: 13px;
+  --lh-title3: 16px;
+  --fs-headline: 13px;
+  --lh-headline: 16px;
+  --fs-body: 13px;
+  --lh-body: 16px;
+  --fs-subhead: 12px;
+  --lh-subhead: 15px;
+  --fs-footnote: 11px;
+  --lh-footnote: 14px;
+  --fs-caption: 11px;
+  --lh-caption: 13px;
+  --track-body: -0.006em;
+  --radius-cell: 10px;
+  --radius-control: 7px;
+  --radius-sheet: 12px;
+  --radius-inner: 6px;
+  --row-min: 40px;
+  --row-pad-y: 8px;
+  --row-pad-x: 12px;
+  --control-h: 28px;
+  --gutter: clamp(20px, 3vw, 32px);
+  --group-gap: 22px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+@media (pointer: coarse) {
+  .mac {
+    --fs-body: 15px;
+    --lh-body: 20px;
+    --fs-headline: 15px;
+    --lh-headline: 20px;
+    --fs-subhead: 13px;
+    --lh-subhead: 17px;
+    --row-min: 44px;
+    --control-h: 40px;
+  }
+}
+
+/* Push and pop on the phone, drawn by the View Transitions API (snapshots only move). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-group(tabbar) {
+  animation: none;
+}
+html[data-nav='forward']::view-transition-old(page) {
+  animation: 420ms var(--ease-ios) both nav-out-left;
+}
+html[data-nav='forward']::view-transition-new(page) {
+  animation: 420ms var(--ease-ios) both nav-in-right;
+}
+html[data-nav='back']::view-transition-old(page) {
+  animation: 380ms var(--ease-ios) both nav-out-right;
+  z-index: 2;
+}
+html[data-nav='back']::view-transition-new(page) {
+  animation: 380ms var(--ease-ios) both nav-in-left;
+}
+@keyframes nav-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes nav-out-left {
+  to {
+    transform: translateX(-28%);
+    opacity: 0.6;
+  }
+}
+@keyframes nav-in-left {
+  from {
+    transform: translateX(-28%);
+    opacity: 0.6;
+  }
+}
+@keyframes nav-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

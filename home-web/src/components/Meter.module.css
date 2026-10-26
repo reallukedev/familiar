@@ -1,0 +1,65 @@
+.meter {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.label {
+  min-width: 0;
+}
+.progress {
+  width: 100%;
+}
+.track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--fill);
+  overflow: hidden;
+}
+.lightTrack {
+  height: 4px;
+  background: rgb(255 255 255 / 0.22);
+}
+.indicator {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+.blue {
+  background: var(--blue);
+}
+.orange {
+  background: var(--orange);
+}
+.red {
+  background: var(--red);
+}
+.light {
+  background: #f5f5f7;
+}
+.indeterminate {
+  width: 30% !important;
+  animation: slide 1.4s var(--ease-in-out) infinite;
+}
+@keyframes slide {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(340%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .indeterminate {
+    width: 100% !important;
+    animation: none;
+    opacity: 0.5;
+  }
+}

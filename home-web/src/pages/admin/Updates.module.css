@@ -1,0 +1,127 @@
+.gap {
+  margin-top: var(--group-gap);
+}
+.body {
+  display: grid;
+  gap: 14px;
+}
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: 14px;
+  row-gap: 14px;
+  align-items: center;
+  min-width: 0;
+}
+:global(.mac) .card {
+  column-gap: 16px;
+}
+.appIcon {
+  width: 56px;
+  height: 56px;
+  align-self: start;
+  border-radius: 13px;
+}
+:global(.mac) .appIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+.summary {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.title {
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.lines {
+  display: grid;
+  gap: 2px;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.progress {
+  margin-top: 8px;
+  max-width: 360px;
+}
+/* On a phone the button spans the card, as iOS puts Update Now under the release. */
+.action {
+  grid-column: 1 / -1;
+  display: grid;
+}
+:global(.mac) .action,
+.spinning {
+  grid-column: auto;
+  justify-items: end;
+}
+
+.notes {
+  display: grid;
+  gap: 6px;
+  padding-top: 12px;
+  box-shadow: inset 0 0.5px 0 var(--separator);
+  min-width: 0;
+}
+.heading {
+  font-weight: 600;
+  color: var(--label);
+}
+.notesText {
+  display: grid;
+  gap: 1px;
+  color: var(--label);
+  overflow-wrap: anywhere;
+  max-width: 68ch;
+}
+.notesText > .heading:not(:first-child) {
+  margin-top: 6px;
+}
+.blank {
+  height: 4px;
+}
+.notesLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue-text);
+  font: 400 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  text-decoration: none;
+  cursor: pointer;
+}
+:global(.mac) .more {
+  min-height: 24px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .more:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+.versions {
+  display: inline;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.arrow {
+  display: inline-block;
+  margin: 0 3px;
+  vertical-align: -1px;
+  color: var(--label-3);
+}
+.detail {
+  display: block;
+  margin-top: 2px;
+  text-wrap: pretty;
+}

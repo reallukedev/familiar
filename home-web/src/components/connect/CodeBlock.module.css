@@ -1,0 +1,62 @@
+.block {
+  min-width: 0;
+  margin: 0;
+  border-radius: var(--radius-control);
+  background: var(--fill);
+  overflow: hidden;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 4px 4px 4px 14px;
+}
+:global(.mac) .head {
+  min-height: 32px;
+  padding: 4px 4px 4px 12px;
+}
+.label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 500 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  color: var(--label-2);
+}
+.pending {
+  padding-right: 10px;
+  text-align: right;
+}
+.pre {
+  margin: 0;
+  padding: 2px 14px 14px;
+  /* Wrapped, never clipped: every character of a command stays visible. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 400 14px / 21px var(--font-mono);
+  color: var(--label);
+  tab-size: 2;
+}
+:global(.mac) .pre {
+  padding: 0 12px 12px;
+  font-size: 12px;
+  line-height: 18px;
+}
+.pre:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+  border-radius: var(--radius-control);
+}
+.pre::selection,
+.pre *::selection {
+  background: color-mix(in srgb, var(--blue) 28%, transparent);
+}
+.secret {
+  padding: 0 2px;
+  margin: 0 -2px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--orange) 22%, transparent);
+  color: inherit;
+}

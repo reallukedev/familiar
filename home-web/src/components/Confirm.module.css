@@ -1,0 +1,172 @@
+.backdrop {
+  z-index: 90;
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  transition: opacity 220ms var(--ease-out);
+}
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.phoneViewport {
+  z-index: 91;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.phonePopup {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 440px);
+  padding: 0 8px calc(8px + var(--safe-bottom));
+  outline: 0;
+  transition: transform 400ms var(--ease-ios);
+}
+.phonePopup[data-starting-style],
+.phonePopup[data-ending-style] {
+  transform: translateY(110%);
+}
+.phonePopup[data-ending-style] {
+  transition-duration: 260ms;
+}
+.card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  backdrop-filter: saturate(180%) blur(30px);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .card {
+    background: var(--bg-elevated);
+  }
+}
+.message {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  text-align: center;
+  text-wrap: pretty;
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+.phoneTitle {
+  font-weight: 600;
+  color: var(--label-2);
+}
+.choice {
+  display: block;
+  width: 100%;
+  min-height: 57px;
+  border: 0;
+  background: transparent;
+  color: var(--tint-text);
+  font: 400 20px/25px var(--font);
+  letter-spacing: -0.02em;
+}
+.choice:active {
+  background: var(--fill);
+}
+.phoneCancel {
+  border-radius: 14px;
+  background: var(--bg-elevated);
+  font-weight: 600;
+}
+.destructive {
+  color: var(--red-text);
+}
+
+.macViewport {
+  z-index: 91;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.macPopup {
+  width: min(100%, 272px);
+  outline: 0;
+  transition:
+    transform 180ms var(--ease-out),
+    opacity 150ms var(--ease-out);
+}
+.macPopup[data-starting-style],
+.macPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.macCard {
+  display: grid;
+  gap: 12px;
+  padding: 18px 16px 16px;
+  border-radius: 12px;
+  background: var(--bg-window);
+  box-shadow: var(--shadow-sheet);
+}
+.macCard .message {
+  padding: 0;
+  box-shadow: none;
+}
+.macTitle {
+  font-weight: 700;
+}
+.macButtons {
+  display: grid;
+  gap: 8px;
+}
+.macButton {
+  min-height: 28px;
+  border: 0;
+  border-radius: 7px;
+  font: 500 13px/16px var(--font);
+}
+@media (pointer: coarse) {
+  .macButton {
+    min-height: 44px;
+  }
+}
+.macButton.destructive {
+  background: var(--red);
+  color: #fff;
+}
+.macButton.primary {
+  background: var(--tint);
+  color: #fff;
+}
+.macButton.cancel {
+  background: var(--fill);
+  color: var(--label);
+}
+@media (hover: hover) and (pointer: fine) {
+  .macButton.cancel:hover {
+    background: var(--fill-hover);
+  }
+  .macButton.destructive:hover {
+    background: color-mix(in srgb, var(--red) 88%, #000);
+  }
+}
+.choice.primary {
+  font-weight: 400;
+}
+
+/* "Don't ask again": a small native checkbox under the message. */
+.skip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  color: var(--label-2);
+  cursor: default;
+}
+.skip input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--tint);
+}

@@ -1,0 +1,161 @@
+.fields {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.label {
+  padding: 0 4px;
+  color: var(--label-2);
+  font-weight: 500;
+}
+.control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--control-h);
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--bg-cell);
+  color: var(--label);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  box-shadow: inset 0 0 0 1px var(--separator);
+  outline: 0;
+  transition: box-shadow 150ms ease;
+}
+/* iOS zooms into inputs under 16 px; keep phone inputs at 17. */
+.input {
+  font-size: max(16px, var(--fs-body));
+}
+:global(.mac) .input {
+  font-size: var(--fs-body);
+  min-height: 30px;
+  padding: 0 9px;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 0.5px var(--separator-strong),
+    0 0.5px 1px rgb(0 0 0 / 0.04);
+}
+@media (pointer: coarse) {
+  :global(.mac) .input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+.input::placeholder {
+  color: var(--label-3);
+}
+.input:focus-visible,
+.input:focus {
+  box-shadow: inset 0 0 0 2px var(--tint);
+}
+:global(.mac) .input:focus {
+  box-shadow:
+    inset 0 0 0 0.5px var(--tint),
+    0 0 0 3.5px var(--focus);
+}
+.input[data-invalid] {
+  box-shadow: inset 0 0 0 1.5px var(--red);
+}
+.input:disabled {
+  color: var(--label-disabled);
+}
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+.area {
+  min-height: 260px;
+  padding: 12px 14px;
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 19px;
+  letter-spacing: 0;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+}
+:global(.mac) .area {
+  font-size: 12px;
+  line-height: 18px;
+  padding: 10px 12px;
+}
+.description {
+  padding: 0 4px;
+  text-wrap: pretty;
+}
+.error {
+  padding: 0 4px;
+  color: var(--red-text);
+  text-wrap: pretty;
+}
+.formError {
+  padding: 10px 14px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--red) 10%, transparent);
+  color: var(--red-text);
+  text-wrap: pretty;
+}
+
+.code {
+  min-width: 0;
+}
+.codeRoot {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 8px repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.codeCell {
+  width: 100%;
+  min-width: 0;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: var(--bg-cell);
+  text-align: center;
+  font: 600 24px/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 0 0 1px var(--separator);
+  caret-color: var(--tint);
+  outline: 0;
+  transition: box-shadow 150ms ease;
+}
+.codeCell:nth-child(4) {
+  grid-column: 5;
+}
+.codeCell:focus {
+  box-shadow: inset 0 0 0 2px var(--tint);
+}
+:global(.mac) .codeCell {
+  height: 44px;
+  border-radius: 8px;
+  font-size: 20px;
+}
+.codeInvalid .codeCell {
+  box-shadow: inset 0 0 0 1.5px var(--red);
+}
+.codeInvalid {
+  animation: shake 420ms var(--ease-out);
+}
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}

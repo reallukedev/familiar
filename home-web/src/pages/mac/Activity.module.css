@@ -1,0 +1,21 @@
+.filters {
+  max-width: 420px;
+  margin-top: 8px;
+}
+.loading {
+  margin-top: var(--group-gap);
+}
+.more {
+  display: grid;
+  place-items: center;
+  min-height: 64px;
+  padding-top: 12px;
+  text-align: center;
+}
+.pending {
+  margin-top: var(--group-gap);
+}
+
+.list {
+  container: activity / inline-size;
+}

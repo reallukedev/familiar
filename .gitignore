@@ -1,0 +1,19 @@
+/target/
+/secrets/
+*.token
+.DS_Store
+node_modules/
+/.env*
+!/.env.example
+/test-results/
+/playwright-report/
+.env*
+
+# Portal (home-web)
+home-web/node_modules/
+home-web/test-results/
+home-web/playwright-report/
+crates/dot-home/web-dist/
+
+# Local agent worktrees and settings
+/.claude/

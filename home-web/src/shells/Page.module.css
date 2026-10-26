@@ -1,0 +1,173 @@
+/* ---- Phone: iOS navigation bar with a large title that collapses on scroll ---- */
+.phone {
+  min-height: 100dvh;
+  padding: 0 calc(var(--gutter) + var(--safe-right)) calc(96px + var(--safe-bottom)) calc(var(--gutter) + var(--safe-left));
+  view-transition-name: page;
+  background: var(--bg);
+}
+.phoneFull {
+  padding: 0;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin: 0 calc(-1 * (var(--gutter) + var(--safe-right))) 0 calc(-1 * (var(--gutter) + var(--safe-left)));
+  padding-top: var(--safe-top);
+  transition: background-color 250ms ease, box-shadow 250ms ease;
+}
+.phoneFull .navbar {
+  margin: 0;
+}
+.material {
+  background: var(--material);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 0.5px 0 var(--material-line);
+}
+.navInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 calc(8px + var(--safe-right)) 0 calc(8px + var(--safe-left));
+}
+.navLead {
+  justify-self: start;
+  min-width: 0;
+}
+.navTrail {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.inlineTitle {
+  max-width: 52vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+.shown {
+  opacity: 1;
+  transform: none;
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0 8px 0 0;
+  color: var(--tint);
+  font-size: 17px;
+  letter-spacing: -0.022em;
+}
+.back:hover {
+  text-decoration: none;
+}
+.back:active {
+  opacity: 0.5;
+}
+.backLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.large {
+  padding: 2px 0 6px;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.phoneContent {
+  min-width: 0;
+}
+
+/* ---- Mac: a toolbar over the content pane, the content filling it ---- */
+.mac {
+  min-height: 100%;
+  min-width: 0;
+}
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 0 var(--gutter);
+}
+/* The scroll edge: content softens under the toolbar instead of meeting a hard line. */
+.toolbar::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -18px;
+  z-index: -1;
+  background: linear-gradient(to bottom, var(--bg-window) 0%, color-mix(in srgb, var(--bg-window) 70%, transparent) 62%, transparent 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+.toolbarInner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+.toolbarScrolled::before {
+  opacity: 1;
+}
+.toolbarTitle {
+  flex: 1;
+  min-width: 0;
+  font: 700 17px/22px var(--font-display);
+  letter-spacing: -0.018em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+.sentinel {
+  height: 1px;
+  margin-bottom: -1px;
+}
+.macContent {
+  width: 100%;
+  margin: 0 auto;
+  padding: 4px var(--gutter) 48px;
+  min-width: 0;
+}
+/* Like a Mac app's window, content uses the whole width of the pane: lists
+   and tables run edge to edge with the window's margins. Only reading text
+   (footnotes) keeps a measure of its own. */
+.mac-regular,
+.mac-wide {
+  --page-max: none;
+}
+.mac-full {
+  --page-max: none;
+}
+.macContent {
+  max-width: calc(var(--page-max) + var(--gutter) * 2);
+}
+.macContent > :first-child {
+  margin-top: 8px;
+}
+.mac-full .macContent {
+  padding: 0;
+}

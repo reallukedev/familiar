@@ -1,0 +1,24 @@
+.stack {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+  min-width: 0;
+}
+.choice {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.choice > span {
+  padding: 0 4px;
+  font-weight: 500;
+}
+.commands {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+  list-style: decimal;
+}
+.commands li::marker {
+  color: var(--label-2);
+}

@@ -1,0 +1,112 @@
+.loading {
+  margin-top: var(--group-gap);
+}
+.row {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  background: var(--bg-cell);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 62px;
+}
+/* Separators start at the text, as in inset grouped lists. */
+.row::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--row-pad-x) + 36px + 12px);
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+  pointer-events: none;
+}
+.row:last-child::after {
+  display: none;
+}
+.main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  min-height: 62px;
+  padding: 10px var(--row-pad-x);
+  border: 0;
+  background: none;
+  color: var(--label);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 350ms var(--ease-out);
+}
+.main:active,
+.main[data-popup-open] {
+  background: var(--bg-cell-pressed);
+  transition: none;
+}
+.main:focus-visible,
+.more:focus-visible {
+  outline-offset: -3px;
+}
+.text {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.name {
+  display: flex;
+  min-width: 0;
+  white-space: nowrap;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+  letter-spacing: var(--track-body);
+}
+.head {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+}
+/* pre, so a space where the name splits isn't dropped at the flex edge. */
+.tail {
+  flex: none;
+  white-space: pre;
+}
+.subtitle {
+  color: var(--label-2);
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chevron {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding-right: calc(var(--row-pad-x) - 4px);
+  color: var(--label-3);
+  opacity: 0.75;
+  cursor: pointer;
+}
+.more {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  border: 0;
+  background: none;
+  color: var(--tint-text);
+  cursor: pointer;
+}
+.main:has(+ .more) {
+  padding-right: 4px;
+}
+.moreGlyph {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  margin-right: 4px;
+  color: var(--tint-text);
+}

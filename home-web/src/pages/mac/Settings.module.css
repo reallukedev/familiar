@@ -1,0 +1,58 @@
+.nameForm {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+.nameField {
+  flex: 1;
+  min-width: 0;
+}
+.resource {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+:global(.mac) .resource {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 260px);
+  align-items: center;
+}
+.danger {
+  margin-top: 44px;
+}
+.danger > section {
+  margin-top: 0;
+}
+.deleteForm {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+}
+.reinstall {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.encrypting {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.encryptingLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.encryptBody {
+  display: grid;
+  gap: 12px;
+  padding: 8px 0;
+}
+.encryptList {
+  display: grid;
+  gap: 6px;
+  padding-left: 1.2em;
+  list-style: disc;
+  color: var(--label-2);
+}

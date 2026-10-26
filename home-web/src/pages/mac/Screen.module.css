@@ -1,0 +1,118 @@
+.wrap {
+  min-width: 0;
+}
+.notice {
+  display: grid;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px var(--gutter) 40px;
+  text-align: center;
+}
+.stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  height: calc(100dvh - 52px - var(--safe-top));
+  padding: 4px var(--gutter) calc(10px + var(--safe-bottom));
+  background: var(--bg-window);
+}
+:global(.mac) .stage {
+  height: calc(100dvh - 52px);
+}
+.stage:fullscreen {
+  height: 100dvh;
+  padding: 0;
+  background: #000;
+  grid-template-rows: minmax(0, 1fr) 0;
+  gap: 0;
+}
+.area {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+/* The display hugs a 16:10 panel, as large as the window allows. */
+.bezel {
+  position: relative;
+  width: min(100cqw, calc((100cqh - 12px) * 1.6 + 12px));
+  aspect-ratio: auto;
+  height: calc((min(100cqw, calc((100cqh - 12px) * 1.6 + 12px)) - 12px) / 1.6 + 12px);
+  border-radius: 14px;
+  background: var(--bezel);
+  padding: 6px;
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-edge),
+    0 0 0 0.5px rgb(0 0 0 / 0.4);
+  overflow: hidden;
+  transition: box-shadow 200ms ease;
+}
+.bezel > div[role='application'] {
+  inset: 6px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.control .bezel {
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-edge),
+    0 0 0 2px var(--blue);
+}
+.stage:fullscreen .bezel {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.stage:fullscreen .bezel > div[role='application'] {
+  inset: 0;
+  border-radius: 0;
+}
+.overlay {
+  position: absolute;
+  inset: 6px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  background: #0b0b0d;
+  color: rgb(245 245 247 / 0.8);
+  text-align: center;
+  padding: 24px;
+}
+.overlayText {
+  max-width: 42ch;
+  font: 400 14px/1.4 var(--font);
+  text-wrap: balance;
+}
+.connecting {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgb(245 245 247 / 0.7);
+}
+.hint {
+  text-align: center;
+  color: var(--label-2);
+  text-wrap: balance;
+}
+.stage:fullscreen .hint {
+  display: none;
+}
+.stage:has(.phoneBar) {
+  grid-template-rows: minmax(0, 1fr) auto auto;
+}
+.phoneBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+.phoneBar > :first-child {
+  flex: 1;
+  max-width: 260px;
+}

@@ -1,0 +1,112 @@
+.positioner {
+  z-index: 95;
+  outline: 0;
+}
+.popup {
+  min-width: 200px;
+  max-width: min(320px, calc(100vw - 24px));
+  padding: 5px;
+  background: color-mix(in srgb, var(--bg-elevated) 86%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  backdrop-filter: saturate(180%) blur(28px);
+  box-shadow: var(--shadow-menu);
+  outline: 0;
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 160ms var(--ease-out),
+    opacity 140ms var(--ease-out);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .popup {
+    background: var(--bg-elevated);
+  }
+}
+.popup[data-starting-style],
+.popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.popup[data-ending-style] {
+  transition-duration: 100ms;
+}
+.phone {
+  min-width: 250px;
+  border-radius: 13px;
+  padding: 0;
+}
+.mac {
+  border-radius: 8px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  outline: 0;
+  cursor: default;
+  user-select: none;
+}
+.phone .item {
+  min-height: 44px;
+  padding: 11px 16px;
+  font: 400 17px/22px var(--font);
+  letter-spacing: -0.022em;
+  box-shadow: inset 0 -0.5px 0 var(--separator);
+}
+.phone .item:last-child {
+  box-shadow: none;
+}
+.phone .item[data-highlighted] {
+  background: var(--fill);
+}
+.mac .item {
+  min-height: 24px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font: 400 13px/18px var(--font);
+}
+@media (pointer: coarse) {
+  .mac .item {
+    min-height: 40px;
+  }
+}
+.mac .item[data-highlighted] {
+  background: var(--blue);
+  color: #fff;
+}
+.item[data-disabled] {
+  color: var(--label-disabled);
+}
+.destructive {
+  color: var(--red-text);
+}
+.mac .destructive[data-highlighted] {
+  background: var(--red);
+  color: #fff;
+}
+.separator {
+  height: 0.5px;
+  margin: 4px 10px;
+  background: var(--separator);
+}
+.phone .separator {
+  height: 8px;
+  margin: 0;
+  background: var(--fill);
+}
+.hint {
+  font: inherit;
+  color: var(--label-3);
+}
+.item[data-highlighted] .hint {
+  color: inherit;
+  opacity: 0.8;
+}
+.itemLabel {
+  min-width: 0;
+}
+.triggerLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

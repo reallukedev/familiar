@@ -1,0 +1,80 @@
+.field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--radius-control);
+  background: var(--fill);
+}
+:global(.mac) .field {
+  padding: 4px 4px 4px 10px;
+}
+.prefix {
+  flex: none;
+  font-family: var(--font-mono);
+  color: var(--label-3);
+}
+.value {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  user-select: all;
+  -webkit-user-select: all;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--label);
+  scrollbar-width: none;
+}
+:global(.mac) .value {
+  font-size: 12px;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-inner);
+  background: var(--bg-cell);
+  color: var(--tint-text);
+  font: 500 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  transition: transform 160ms var(--ease-out);
+}
+:global(.mac) .button {
+  min-height: 24px;
+  padding: 0 9px;
+}
+@media (pointer: coarse) {
+  :global(.mac) .button {
+    min-height: 36px;
+  }
+}
+.button:active {
+  transform: scale(0.96);
+}
+.button[data-copied] {
+  color: var(--green-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    background: var(--bg-cell-hover);
+  }
+}
+.glyph {
+  display: flex;
+}
+/* Both words take the same space so the button never changes width. */
+.text {
+  display: inline-grid;
+}
+.text > span {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.text > span[data-visible] {
+  visibility: visible;
+}

@@ -1,0 +1,11 @@
+.host {
+  position: absolute;
+  inset: 0;
+  background: #0b0b0d;
+}
+.host canvas {
+  border-radius: 0;
+}
+.viewOnly canvas {
+  cursor: default !important;
+}

@@ -1,0 +1,145 @@
+/*
+  Familiar's motion spec. Choreography lives in Familiar.tsx as Web Animations
+  on transform and opacity only; this file holds the parts CSS can own
+  (pivots, the hover perk, the outline) and the spec every state is built to.
+
+  Principles
+  - Every part has two layers: a pose (the state's expression) and a motion
+    layer (blinks, twitches, breaths) that always rests at identity. A state
+    change freezes both mid-flight and moves on from there, so nothing snaps.
+  - Ears pivot at their base, the head at the bottom of the bezel, the body at
+    its feet. The ears always start 40 to 240 ms after the head and settle on a
+    spring: follow-through and overlap.
+  - Curves: easeInOutCubic (0.65, 0, 0.35, 1) for deliberate moves,
+    easeInOutSine (0.37, 0, 0.63, 1) for breath and drift, easeOutCubic for
+    arrivals, easeInCubic only for falling and lids closing. Springs are
+    sampled into linear(): bounce 0.35 for snapping alert, 0.25 for settling.
+  - Random behaviour is scheduled with animation delays, never timers, so it
+    pauses with the animations when the tab hides or Familiar scrolls away.
+    The first beat of each comes sooner (30 to 100% of the shortest pause),
+    so a Familiar that just appeared shows some life.
+
+  idle       Blinks every 2.2 to 6.4 s: 190 ms (close 38% easeIn, hold, open
+             easeOut), double blink 18% of the time. An ear flick every 6 to
+             14 s: out 10° in 80 ms, back past rest by 3° and settle, 560 ms;
+             the other ear answers 40% of the time at 30%, 70 ms late. A slow
+             glance every 9 to 18 s: 14 to 24 units along a slight upward arc
+             (easeInQuad into easeOutQuad, so speed is continuous through the
+             arc), held 1.5 to 2.2 s, head leaning 1.4° a beat behind; 40% of
+             glances start with a blink.
+  thinking   Eyes up and to the right, lids narrowed 12%, one ear forward and
+             one back. Enter 520 ms easeInOutCubic, ears on springSoft 90 ms
+             later. A 4.2 s scan loop: saccade left (250 ms easeOut), hold,
+             sweep right through a raised midpoint, hold, return; the head
+             sways ±1.6° behind the gaze. Blinks every 2.4 to 5.2 s.
+  happy      Eyes flatten into ^ ^ (ellipse squashes to a line in 60% of
+             260 ms, the arc grows out of it). Ears perk 9° on a 0.35 spring.
+             A 780 ms hop: anticipation squash (1.05, 0.92) at 18%, stretch
+             (0.97, 1.05) on launch, apex at 52 units, easeIn fall, landing
+             squash (1.04, 0.95) at 80%, settle. The head bobs 4 to 5 units a
+             beat behind; the ears drag on launch, swing up at the apex and flop
+             on landing (920 ms, 30 and 70 ms late). Then holds, with rare
+             ear flicks.
+  attention  Anticipation dip (1.02, 0.97) for 100 ms, then a lift. Ears snap
+             up 12° and rise 16 units on a 0.35 spring (560 ms, 70 ms late);
+             eyes widen to 1.18 on the same spring. Blinks every 3 to 6 s and
+             both ears flick a touch higher every 4 to 8 s.
+  sleeping   Falling asleep takes 1.1 s easeInOutSine: lids droop to 55% first,
+             then the eyes close into ‿ ‿; the ears relax 14° 240 ms later and
+             the head sinks 6 units and tilts 3°. A 5.2 s breath loop: the
+             screen glow dims to 35% and shrinks 6% on the exhale, the body
+             sinks 1.5 units, the ears ride it 260 to 320 ms late.
+  waking     1.9 s: gather (squash) by 12%, stretch tall (0.965, 1.06) with
+             ears up and head back through 46%, release with a small squash;
+             eyes open half-lidded at 50 to 58%, blink twice by 79%, the lids
+             lift by 92%. Then idle.
+  sad        900 ms easeInOutCubic: eyes lower 18 units and shrink a touch,
+             lids drop 16% and tilt 24° with the outer corners down, the head
+             sinks 8; the ears droop 17° on springSoft 160 ms later, so they
+             sag past and settle. Slow 340 ms blinks every 3.8 to 7 s; a sigh
+             every 7 to 12 s (1.8 s: rise, sink, the ears dip after it).
+  offline    900 ms easeInOutSine to 55% opacity, half-lidded, ears relaxed.
+             Every 4.5 to 9 s it nods off: lids sink a further 34% and the head
+             dips over 1.2 s, then it catches itself in 290 ms easeOut.
+  mouth      Under a small nose, in the eyes' light; 44 px and up only. Each
+             state has its own: idle ω, thinking a squiggle that slides with
+             the gaze, happy an open grin, attention o, sleeping a small ω,
+             sad a frown, offline a flat line. On a change the old mouth holds
+             and shrinks away (easeIn, 55% of the new one's time) while the new
+             one grows in on the state's timing, a 0.35 spring for happy and
+             attention, so the two overlap and read as one mouth changing.
+             Waking yawns at the top of the stretch (15 to 54%). Idle, every
+             16 to 32 s, the tongue tip slips out for about a second (blep).
+  hover      Desktop only: ears perk 7° and lift 5 units in 260 ms (the
+             app's --ease-out), the right ear 40 ms late; back in 420 ms.
+  press      The whole figure squishes to (1.03, 0.94) from its feet in 110 ms
+             easeOut and springs back on release (560 ms, bounce 0.25). Taps
+             always reach the full squish first.
+  reduced    Static poses. A state change cross-fades the old expression into
+             the new one over 240 ms; no movement, no blinks, no press squish.
+*/
+
+.root {
+  display: block;
+  flex: none;
+  overflow: visible;
+  transform-origin: 50% 86%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.root [data-part],
+.ear {
+  transform-box: view-box;
+}
+/* Parts move only by Web Animations; this keeps the global reduced-motion rule from adding transitions. */
+.root [data-part] {
+  transition-property: none;
+}
+
+/* ^ ^ and ‿ ‿, the closed eyes. */
+.arc {
+  fill: none;
+  stroke: #ffc53d;
+  stroke-linecap: round;
+}
+
+/* The nose and the open grin. */
+.mouth > path,
+.fill {
+  fill: #ffc53d;
+}
+.mouth .arc {
+  stroke-linejoin: round;
+}
+
+/* The glyph sits on any background; a hairline keeps the white body from melting into a light one. */
+.outline {
+  fill: none;
+  stroke: rgb(0 0 0 / 0.14);
+  stroke-width: 1.25px;
+  vector-effect: non-scaling-stroke;
+}
+.edge {
+  stroke: none;
+}
+.root[data-variant='glyph'] .edge {
+  stroke: rgb(0 0 0 / 0.14);
+  stroke-width: 1.25px;
+  vector-effect: non-scaling-stroke;
+  paint-order: stroke;
+}
+
+.ear {
+  transition: transform 420ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .root:hover .earL {
+    transform: translate(0px, -5px) rotate(7deg);
+    transition: transform 260ms var(--ease-out);
+  }
+  .root:hover .earR {
+    transform: translate(0px, -5px) rotate(-7deg);
+    transition: transform 260ms var(--ease-out) 40ms;
+  }
+}

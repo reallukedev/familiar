@@ -1,0 +1,213 @@
+.backdrop {
+  z-index: 80;
+  position: fixed;
+  inset: 0;
+  min-height: 100dvh;
+  background: var(--scrim);
+  opacity: calc(1 - var(--drawer-swipe-progress, 0));
+  transition: opacity 450ms var(--ease-ios);
+}
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+.backdrop[data-swiping] {
+  transition-duration: 0ms;
+}
+.backdrop[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength, 1) * 300ms);
+}
+@supports (-webkit-touch-callout: none) {
+  .backdrop {
+    position: absolute;
+  }
+}
+
+/* ---- Phone: the iOS sheet ---- */
+.phoneViewport {
+  z-index: 81;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: calc(var(--safe-top) + 10px);
+  touch-action: none;
+}
+.phonePopup {
+  --bleed: 3rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: calc(100% + var(--bleed));
+  margin-bottom: calc(-1 * var(--bleed));
+  padding-bottom: var(--bleed);
+  border-radius: 14px 14px 0 0;
+  background: var(--bg);
+  color: var(--label);
+  outline: 0;
+  box-shadow: 0 -2px 30px rgb(0 0 0 / 0.12);
+  transform: translateY(var(--drawer-swipe-movement-y, 0px));
+  transition: transform 450ms var(--ease-ios);
+  will-change: transform;
+}
+.phonePopup[data-starting-style],
+.phonePopup[data-ending-style] {
+  transform: translateY(calc(100% - var(--bleed) + 2px));
+}
+.phonePopup[data-ending-style] {
+  transition-duration: calc(var(--drawer-swipe-strength, 1) * 400ms);
+}
+.phonePopup[data-swiping] {
+  user-select: none;
+}
+@media (prefers-color-scheme: dark) {
+:global(:root:not([data-theme='light'])) .phonePopup {
+    background: #1c1c1e;
+  }
+}
+:global(:root[data-theme='dark']) .phonePopup {
+    background: #1c1c1e;
+  }
+.phoneBar {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 10px 8px 4px;
+  flex: none;
+  touch-action: none;
+  user-select: none;
+}
+.grabber {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 36px;
+  height: 5px;
+  margin-left: -18px;
+  border-radius: 999px;
+  background: var(--fill-strong);
+}
+.barTitle {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60vw;
+}
+.barButton {
+  justify-self: start;
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tint-text);
+  font: 400 17px/22px var(--font);
+  letter-spacing: -0.022em;
+}
+.barPrimary {
+  justify-self: end;
+  font-weight: 600;
+}
+.barDestructive {
+  color: var(--red-text);
+}
+.barButton:disabled:not([aria-busy]) {
+  color: var(--label-disabled);
+}
+.barButton:not(:disabled):active {
+  opacity: 0.5;
+}
+.phoneBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: 4px var(--gutter) calc(24px + var(--safe-bottom) + var(--drawer-keyboard-inset, 0px));
+}
+.description {
+  margin: 4px 4px 0;
+  text-wrap: pretty;
+}
+
+/* ---- Mac: a centered sheet ---- */
+.macBackdrop {
+  background: rgb(0 0 0 / 0.18);
+  transition: opacity 200ms var(--ease-out);
+}
+@media (prefers-color-scheme: dark) {
+:global(:root:not([data-theme='light'])) .macBackdrop {
+    background: rgb(0 0 0 / 0.42);
+  }
+}
+:global(:root[data-theme='dark']) .macBackdrop {
+    background: rgb(0 0 0 / 0.42);
+  }
+.macViewport {
+  z-index: 81;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding: clamp(24px, 9vh, 120px) 16px 24px;
+  overflow-y: auto;
+}
+.macPopup {
+  width: min(100%, 460px);
+  border-radius: var(--radius-sheet);
+  background: var(--bg-window);
+  color: var(--label);
+  box-shadow: var(--shadow-sheet);
+  outline: 0;
+  transform-origin: 50% 0;
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 180ms var(--ease-out);
+}
+.macPopup.large {
+  width: min(100%, 680px);
+}
+.macPopup[data-starting-style],
+.macPopup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97) translateY(-6px);
+}
+.macPopup[data-ending-style] {
+  transition-duration: 150ms;
+}
+.macBody {
+  display: grid;
+  gap: 12px;
+  padding: 20px 20px 4px;
+  min-width: 0;
+}
+.macTitle {
+  text-wrap: balance;
+}
+.macActions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 20px 18px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .phonePopup[data-starting-style],
+  .phonePopup[data-ending-style] {
+    transform: none;
+    opacity: 0;
+  }
+  .macPopup[data-starting-style],
+  .macPopup[data-ending-style] {
+    transform: none;
+  }
+}

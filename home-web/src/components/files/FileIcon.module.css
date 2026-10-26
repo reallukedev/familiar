@@ -1,0 +1,74 @@
+.icon {
+  flex: none;
+  display: block;
+  overflow: visible;
+}
+.folderBack {
+  fill: color-mix(in srgb, var(--blue) 82%, var(--on-tint));
+}
+.folderFront {
+  fill: color-mix(in srgb, var(--blue) 62%, var(--on-tint));
+}
+.page {
+  fill: var(--on-tint);
+  stroke: var(--separator-strong);
+  stroke-width: 0.9;
+}
+.fold {
+  fill: color-mix(in srgb, var(--gray) 22%, var(--on-tint));
+  stroke: var(--separator-strong);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+.lines {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.muted {
+  stroke: var(--gray);
+}
+.orange {
+  stroke: var(--orange);
+}
+.red {
+  stroke: var(--red);
+}
+.sun {
+  fill: var(--orange);
+}
+.hill {
+  fill: var(--green);
+}
+.play {
+  fill: var(--indigo);
+}
+.clasp {
+  fill: none;
+  stroke: var(--gray);
+  stroke-width: 1.2;
+}
+.app {
+  fill: var(--indigo);
+}
+.appMark {
+  fill: none;
+  stroke: var(--on-tint);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.badge {
+  fill: var(--on-tint);
+  stroke: var(--separator-strong);
+  stroke-width: 0.8;
+}
+.badgeArrow {
+  fill: none;
+  stroke: var(--label-2);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

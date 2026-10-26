@@ -1,0 +1,96 @@
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  padding: 2px;
+  border-radius: var(--radius-inner);
+  background: var(--fill);
+  min-width: 0;
+}
+.thumb {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc((100% - 4px) / var(--count));
+  border-radius: calc(var(--radius-inner) - 2px);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-thumb);
+  transform: translateX(calc(var(--index) * 100%));
+  transition: transform 320ms var(--ease-ios);
+}
+@media (prefers-color-scheme: dark) {
+:global(:root:not([data-theme='light'])) .thumb {
+    background: #636366;
+  }
+}
+:global(:root[data-theme='dark']) .thumb {
+    background: #636366;
+  }
+.segment {
+  position: relative;
+  z-index: 1;
+  min-height: 32px;
+  min-width: 0;
+  padding: 0 8px;
+  border: 0;
+  border-radius: calc(var(--radius-inner) - 2px);
+  background: transparent;
+  color: var(--label);
+  font: 500 13px/15px var(--font);
+  letter-spacing: -0.006em;
+  /* Long labels wrap to two short lines instead of being cut off. */
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.segment[data-pressed] {
+  font-weight: 600;
+}
+.label {
+  display: inline-grid;
+}
+.label::after {
+  content: attr(data-text);
+  height: 0;
+  font-weight: 600;
+  visibility: hidden;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.segment[data-disabled] {
+  color: var(--label-disabled);
+}
+.segment:focus-visible {
+  outline-offset: -1px;
+}
+/* A 44 pt tall hit area on phones without growing the visible track. */
+.regular .segment::before {
+  content: '';
+  position: absolute;
+  inset: -6px 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .segment:not([data-pressed]):not([data-disabled]):hover {
+    background: var(--fill);
+  }
+}
+:global(.mac) .segment {
+  min-height: 22px;
+  font-size: 12px;
+}
+:global(.mac) .track {
+  border-radius: 7px;
+}
+:global(.mac) .thumb {
+  border-radius: 5px;
+}
+@media (pointer: coarse) {
+  :global(.mac) .segment {
+    min-height: 32px;
+    font-size: 13px;
+  }
+}
+.compact .segment {
+  min-height: 28px;
+}

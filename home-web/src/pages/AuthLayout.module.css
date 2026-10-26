@@ -1,0 +1,42 @@
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  padding: calc(24px + var(--safe-top)) 16px calc(24px + var(--safe-bottom));
+  background: var(--bg);
+}
+.card {
+  display: grid;
+  gap: 18px;
+  width: min(100%, 400px);
+  min-width: 0;
+}
+.wide {
+  width: min(100%, 460px);
+}
+.mark {
+  width: 56px;
+  height: 56px;
+  justify-self: center;
+}
+.title {
+  text-align: center;
+}
+.footer {
+  max-width: 400px;
+  text-align: center;
+  text-wrap: pretty;
+}
+@media (min-width: 768px) {
+  .card {
+    padding: 32px 32px 28px;
+    border-radius: 20px;
+    background: var(--bg-cell);
+    box-shadow: var(--shadow-sheet);
+  }
+  .wide {
+    width: min(100%, 500px);
+  }
+}

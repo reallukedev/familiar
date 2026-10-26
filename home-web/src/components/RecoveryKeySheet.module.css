@@ -1,0 +1,76 @@
+.body {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+  min-width: 0;
+}
+/* The key in four columns on a Mac, two on a phone, so groups never wrap mid-way. */
+.key {
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  justify-content: center;
+  gap: 8px 14px;
+  padding: 16px;
+  border-radius: var(--radius-control);
+  background: var(--fill);
+  font: 500 19px / 26px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--label);
+  user-select: all;
+  -webkit-user-select: all;
+}
+@media (max-width: 380px) {
+  .key {
+    grid-template-columns: repeat(2, max-content);
+  }
+}
+:global(.mac) .key {
+  font-size: 16px;
+  line-height: 22px;
+}
+.group {
+  font-variant-numeric: tabular-nums;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.download {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-inner);
+  background: var(--fill);
+  color: var(--tint-text);
+  font: 500 var(--fs-subhead) / var(--lh-subhead) var(--font);
+  transition: transform 160ms var(--ease-out);
+}
+.download:active {
+  transform: scale(0.97);
+}
+:global(.mac) .download {
+  min-height: 24px;
+  padding: 0 9px;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--row-min);
+  padding: 0 4px;
+  cursor: pointer;
+}
+.check input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  accent-color: var(--tint);
+}
+.prompt {
+  margin-bottom: var(--group-gap);
+}

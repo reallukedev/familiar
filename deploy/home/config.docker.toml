@@ -1,0 +1,17 @@
+# Dot Home inside the official container. public_url comes from DOT_HOME_PUBLIC_URL,
+# HTTPS from DOT_HOME_ACME_EMAIL (Let's Encrypt) unless a proxy in front handles it.
+bind = "0.0.0.0:8443"
+data_dir = "/var/lib/dot-home"
+
+[vm]
+qemu = "/usr/bin/qemu-system-x86_64"
+qemu_img = "/usr/bin/qemu-img"
+osx_kvm_dir = "/opt/osx-kvm"
+default_cpus = 4
+default_memory_mb = 8192
+default_disk_gb = 128
+
+[limits]
+max_running = 4
+max_instances_per_user = 2
+min_free_disk_gb = 20

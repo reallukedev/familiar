@@ -1,0 +1,79 @@
+.note,
+.search {
+  margin-top: 12px;
+}
+.appRow {
+  position: relative;
+}
+.appRow .switch {
+  position: absolute;
+  top: 50%;
+  right: var(--row-pad-x);
+  transform: translateY(-50%);
+}
+/* Leave room for the switch so long names wrap before it. */
+.appRow > :first-child {
+  padding-right: 72px;
+}
+.icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 22.5%;
+  flex: none;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.08), 0 0 0 0.5px rgb(0 0 0 / 0.06);
+}
+:global(.mac) .icon {
+  width: 24px;
+  height: 24px;
+}
+.letter {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(to bottom, hsl(var(--hue) 62% 62%), hsl(var(--hue) 58% 48%));
+  color: #fff;
+  font: 600 15px/1 var(--font-display);
+  text-shadow: 0 0.5px 1px rgb(0 0 0 / 0.2);
+}
+:global(.mac) .letter {
+  font-size: 13px;
+}
+.form {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+  min-width: 0;
+}
+.detail {
+  min-width: 0;
+}
+.remove {
+  margin-top: 28px;
+}
+.issues {
+  display: grid;
+  gap: 6px;
+}
+.issues ul {
+  display: grid;
+  gap: 4px;
+}
+.issue {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--red) 9%, transparent);
+  color: var(--red-text);
+  text-align: left;
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+}
+.issue:disabled {
+  cursor: default;
+}
+.line {
+  flex: none;
+  font-weight: 600;
+}

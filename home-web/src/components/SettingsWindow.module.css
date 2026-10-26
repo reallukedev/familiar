@@ -1,0 +1,171 @@
+/* macOS Settings window: traffic-light close, centered title, a toolbar of
+   tab icons, and a body that resizes to each pane. */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgb(0 0 0 / 0.12);
+  transition: opacity 200ms var(--ease-out);
+}
+.backdrop[data-starting-style],
+.backdrop[data-ending-style] {
+  opacity: 0;
+}
+
+.viewport {
+  z-index: 81;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding: clamp(24px, 10vh, 120px) 16px 24px;
+  overflow-y: auto;
+}
+
+.window {
+  width: min(100%, 600px);
+  border-radius: 12px;
+  background: var(--bg-window);
+  color: var(--label);
+  box-shadow: var(--shadow-sheet), 0 0 0 0.5px var(--separator-strong);
+  outline: 0;
+  overflow: hidden;
+  transform-origin: 50% 0;
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 180ms var(--ease-out);
+}
+.window[data-starting-style],
+.window[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.97);
+}
+.window[data-ending-style] {
+  transition-duration: 140ms;
+}
+
+.titlebar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 30px;
+  background: var(--material);
+}
+.title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label);
+}
+.close {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.18);
+  color: transparent;
+  cursor: default;
+}
+.close:hover,
+.close:focus-visible {
+  color: rgb(0 0 0 / 0.6);
+}
+.close:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 8px 8px;
+  background: var(--material);
+  border-bottom: 0.5px solid var(--separator);
+}
+.tab {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 76px;
+  padding: 6px 8px 5px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--label-2);
+  font: inherit;
+  font-size: 11px;
+  cursor: default;
+}
+.tab:hover {
+  background: var(--fill);
+}
+.tab:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+.tabSelected,
+.tabSelected:hover {
+  background: var(--fill-strong);
+  color: var(--blue-text);
+}
+
+.autoHeight {
+  overflow: hidden;
+  transition: height 220ms var(--ease-in-out);
+}
+.autoHeight > div {
+  display: flow-root;
+}
+.pane {
+  padding: 18px 24px 24px;
+  animation: fade 160ms var(--ease-out);
+}
+.pane > :first-child {
+  margin-top: 0;
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.controlRow {
+  padding: 10px var(--row-pad-x);
+}
+
+.kbd {
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--label-2);
+  padding-right: var(--row-pad-x);
+}
+
+.phoneBody {
+  padding-bottom: 16px;
+}
+.phoneBody > :first-child {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window[data-starting-style],
+  .window[data-ending-style] {
+    transform: none;
+  }
+  .autoHeight {
+    transition: none;
+  }
+  .pane {
+    animation: none;
+  }
+}

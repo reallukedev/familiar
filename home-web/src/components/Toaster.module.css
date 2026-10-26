@@ -1,0 +1,158 @@
+.viewport {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  outline: 0;
+  pointer-events: none;
+}
+.phone {
+  top: calc(8px + var(--safe-top));
+  left: 12px;
+  right: 12px;
+  align-items: center;
+}
+.mac {
+  top: 12px;
+  right: 16px;
+  width: min(360px, calc(100vw - 32px));
+  align-items: stretch;
+}
+.toast {
+  pointer-events: auto;
+  max-width: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  color: var(--label);
+  box-shadow: var(--shadow-sheet), 0 0 0 0.5px var(--material-line);
+  transform: translateX(var(--toast-swipe-movement-x, 0px)) translateY(var(--toast-swipe-movement-y, 0px));
+  transition:
+    transform 400ms var(--ease-ios),
+    opacity 300ms var(--ease-out);
+  user-select: none;
+}
+.mac .toast {
+  border-radius: 14px;
+}
+.toast[data-starting-style] {
+  opacity: 0;
+  transform: translateY(-120%);
+}
+.mac .toast[data-starting-style] {
+  transform: translateX(24px);
+}
+.toast[data-ending-style] {
+  opacity: 0;
+  transform: translateY(calc(var(--toast-swipe-movement-y, 0px) - 120%));
+}
+.mac .toast[data-ending-style] {
+  transform: translateX(calc(var(--toast-swipe-movement-x, 0px) + 110%));
+}
+.toast[data-limited] {
+  opacity: 0;
+}
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 10px 10px 18px;
+}
+.mac .content {
+  padding: 12px 10px 12px 14px;
+}
+.title {
+  flex: 1;
+  margin: 0;
+  font: 500 15px/20px var(--font);
+  letter-spacing: -0.012em;
+  text-wrap: pretty;
+}
+.mac .title {
+  font-size: 13px;
+  line-height: 17px;
+}
+.glyph {
+  display: flex;
+  flex: none;
+}
+.ok {
+  color: var(--green);
+}
+.bad {
+  color: var(--red);
+}
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fill);
+  color: var(--label-2);
+}
+.phone .close {
+  width: 30px;
+  height: 30px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .close {
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+  .toast:hover .close,
+  .close:focus-visible {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .toast {
+    background: var(--bg-elevated);
+  }
+}
+
+/* Undo toasts: a countdown ring and an Undo button in place of the close button. */
+.action {
+  flex: none;
+  min-height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fill-strong);
+  color: var(--tint-text);
+  font: 600 var(--fs-subhead) / 1 var(--font);
+}
+.action:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.countdown {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: conic-gradient(var(--label-3) var(--left, 100%), transparent 0);
+  -webkit-mask: radial-gradient(circle, transparent 4px, #000 4.5px);
+  mask: radial-gradient(circle, transparent 4px, #000 4.5px);
+  animation: drain var(--seconds) linear forwards;
+}
+@property --left {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%;
+}
+@keyframes drain {
+  to {
+    --left: 0%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .countdown {
+    animation: none;
+  }
+}

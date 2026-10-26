@@ -1,0 +1,138 @@
+/* The display. Always dark, like the hardware, in light and dark appearance. */
+.frame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  background: var(--bezel);
+  color: #f5f5f7;
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-edge),
+    0 0 0 0.5px rgb(0 0 0 / 0.35);
+}
+.hero {
+  padding: clamp(5px, 1.1%, 13px);
+  border-radius: clamp(10px, 2%, 20px);
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-edge),
+    0 0 0 0.5px rgb(0 0 0 / 0.4),
+    0 28px 50px -30px rgb(0 0 0 / 0.55);
+}
+.card {
+  padding: 4px;
+  border-radius: 10px;
+}
+.tiny {
+  padding: 2px;
+  border-radius: 5px;
+}
+.screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--screen-off);
+  container-type: inline-size;
+  border-radius: clamp(3px, 0.6%, 7px);
+}
+.tiny .screen {
+  border-radius: 2px;
+}
+.frameImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: appear 260ms var(--ease-out);
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(4px, 1.8cqi, 12px);
+  padding: 6%;
+  text-align: center;
+  color: rgb(245 245 247 / 0.86);
+  background: #0b0b0d;
+}
+.glyph {
+  display: flex;
+  color: rgb(245 245 247 / 0.72);
+}
+.lock {
+  display: flex;
+  color: rgb(245 245 247 / 0.78);
+}
+.red {
+  color: #ff6961;
+  display: flex;
+}
+.title {
+  font: 600 clamp(12px, 2.8cqi, 19px) / 1.25 var(--font-display);
+  letter-spacing: -0.01em;
+  color: #f5f5f7;
+}
+.caption {
+  max-width: 46ch;
+  font: 400 clamp(11px, 1.9cqi, 14px) / 1.35 var(--font);
+  color: rgb(245 245 247 / 0.62);
+  text-wrap: balance;
+}
+.boot {
+  width: clamp(48px, 26cqi, 220px);
+}
+.tiny .boot {
+  width: 32px;
+}
+.overlayAction {
+  margin-top: clamp(4px, 1.2cqi, 10px);
+}
+
+.chips {
+  position: absolute;
+  top: clamp(6px, 2cqi, 14px);
+  left: clamp(6px, 2cqi, 14px);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgb(20 20 22 / 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  font: 600 12px/1 var(--font);
+  box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.14);
+}
+.card .chip {
+  height: 20px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+.chipOrange {
+  color: #ffb340;
+}
+.action {
+  position: absolute;
+  right: clamp(8px, 2.2cqi, 16px);
+  bottom: clamp(8px, 2.2cqi, 16px);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .chip {
+    background: #141416;
+  }
+}

@@ -1,0 +1,13 @@
+# Never send secrets or local state into the image build.
+secrets/
+.env*
+!.env.example
+.git/
+**/node_modules/
+target/
+test-results/
+playwright-report/
+home-web/test-results/
+crates/dot-home/web-dist/
+.DS_Store
+*.token

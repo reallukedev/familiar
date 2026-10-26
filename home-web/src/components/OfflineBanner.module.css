@@ -1,0 +1,43 @@
+.banner {
+  position: fixed;
+  left: 50%;
+  bottom: calc(76px + var(--safe-bottom));
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(560px, calc(100vw - 24px));
+  padding: 8px 8px 8px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  box-shadow: var(--shadow-sheet), 0 0 0 0.5px var(--material-line);
+  color: var(--label-2);
+  transform: translateX(-50%);
+  animation: rise 320ms var(--ease-out);
+}
+:global(.mac) .banner {
+  bottom: 20px;
+}
+.text {
+  flex: 1;
+  min-width: 0;
+  font: 400 var(--fs-footnote) / var(--lh-footnote) var(--font);
+  text-wrap: pretty;
+}
+.text strong {
+  color: var(--label);
+  font-weight: 600;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .banner {
+    background: var(--bg-elevated);
+  }
+}

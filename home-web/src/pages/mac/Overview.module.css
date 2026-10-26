@@ -1,0 +1,68 @@
+.layout {
+  display: grid;
+  gap: 20px;
+  padding-top: 8px;
+  min-width: 0;
+}
+@media (min-width: 1080px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+    align-items: start;
+    gap: 28px;
+  }
+}
+.display {
+  min-width: 0;
+}
+.side {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.side > section {
+  margin-top: 0;
+}
+.status {
+  display: grid;
+  gap: 6px;
+  padding: 2px 4px;
+}
+.primary {
+  margin-top: 8px;
+}
+.banner {
+  margin-top: var(--group-gap);
+}
+.columns {
+  display: grid;
+  min-width: 0;
+}
+@media (min-width: 1080px) {
+  .columns {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+}
+.liveControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.liveNote {
+  font: 500 12px/1 var(--font);
+  color: rgb(245 245 247 / 0.8);
+}
+/* A text link with a full-height touch target. */
+.showAll {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -12px 0;
+}
+:global(.mac) .showAll {
+  min-height: 24px;
+  margin: 0;
+}

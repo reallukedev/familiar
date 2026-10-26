@@ -1,0 +1,45 @@
+# docker compose -f deploy/home/compose.yaml up -d
+# Set DOT_HOME_PUBLIC_URL, DOT_HOME_ACME_EMAIL and KVM_GID (getent group kvm | cut -d: -f3) in .env.
+# How Gluon shows this app: its name, icon and description.
+x-gluon:
+  name: Familiar
+  description: A Mac for your assistant
+  icon: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzNjM2M0NyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBmMGYxNSIvPjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0iZmFjZSIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2UzZTNlYiIvPjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0ic2NyZWVuIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMjMyMzJkIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTIxMjE4Ii8+PC9saW5lYXJHcmFkaWVudD4KPHJhZGlhbEdyYWRpZW50IGlkPSJleWUiIGN4PSIwLjUiIGN5PSIwLjM4IiByPSIwLjY1Ij48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmZmVjOGEiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmIzMDAiLz48L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiIHJ4PSIyMzAiIGZpbGw9InVybCgjYmcpIi8+CjxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSIxMDIwIiBoZWlnaHQ9IjEwMjAiIHJ4PSIyMjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuMTQiIHN0cm9rZS13aWR0aD0iNCIvPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC04KSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTMwLjcgLTMwLjcpIHNjYWxlKDEuMDYpIj4KPHBhdGggZD0iTTI3MCA0MDAgMzAwIDIzNlEzMDYgMjEyIDMyNiAyMjZMNDMyIDMzMFpNNzU0IDQwMCA3MjQgMjM2UTcxOCAyMTIgNjk4IDIyNkw1OTIgMzMwWiIgZmlsbD0idXJsKCNmYWNlKSIvPgo8cmVjdCB4PSIyMzIiIHk9IjMxOCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzOTIiIHJ4PSI3NCIgZmlsbD0idXJsKCNmYWNlKSIvPgo8cmVjdCB4PSIyNzQiIHk9IjM2MCIgd2lkdGg9IjQ3NiIgaGVpZ2h0PSIzMDgiIHJ4PSI0NiIgZmlsbD0idXJsKCNzY3JlZW4pIi8+CjxlbGxpcHNlIGN4PSI0MjAiIGN5PSI1MTQiIHJ4PSIzNCIgcnk9IjQ4IiBmaWxsPSJ1cmwoI2V5ZSkiLz4KPGVsbGlwc2UgY3g9IjYwNCIgY3k9IjUxNCIgcng9IjM0IiByeT0iNDgiIGZpbGw9InVybCgjZXllKSIvPgo8cGF0aCBkPSJNNDUyIDc0MGgxMjBsMTggNjBINDM0WiIgZmlsbD0idXJsKCNmYWNlKSIvPjxyZWN0IHg9IjM5MiIgeT0iNzk2IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI2IiByeD0iMTMiIGZpbGw9InVybCgjZmFjZSkiLz4KPC9nPjwvZz4KPC9zdmc+
+services:
+  dot-home:
+    # Release images carry the update key, so they can update themselves:
+    #   image: ghcr.io/<owner>/familiar/dot-home:latest   (or :nightly)
+    # A local build works too but never auto-updates.
+    build:
+      context: ../..
+    image: dot-home:latest
+    restart: unless-stopped
+    devices:
+      - /dev/kvm:/dev/kvm
+    group_add:
+      - "${KVM_GID:?set KVM_GID to the host's kvm group id}"
+    ports:
+      - "443:8443"
+    environment:
+      DOT_HOME_PUBLIC_URL: "${DOT_HOME_PUBLIC_URL:?set DOT_HOME_PUBLIC_URL, e.g. https://home.example.com}"
+      # Set this for built-in Let's Encrypt HTTPS, or leave it empty and set
+      # DOT_HOME_TRUSTED_PROXIES to your TLS proxy's address. The server refuses to start
+      # with plain HTTP on a public port otherwise.
+      DOT_HOME_ACME_EMAIL: "${DOT_HOME_ACME_EMAIL:-}"
+      DOT_HOME_TRUSTED_PROXIES: "${DOT_HOME_TRUSTED_PROXIES:-}"
+    volumes:
+      - dot-home:/var/lib/dot-home
+    # Running Macs are hibernated on stop so they resume where they were; give them time.
+    stop_grace_period: 5m
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    ulimits:
+      nofile: 65536
+volumes:
+  dot-home:

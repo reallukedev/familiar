@@ -1,0 +1,49 @@
+.setup {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.steps {
+  display: grid;
+  gap: 22px;
+  padding-left: 20px;
+  list-style: decimal;
+}
+.steps li {
+  display: grid;
+  gap: 12px;
+  font: 400 var(--fs-body) / var(--lh-body) var(--font);
+}
+.steps li::marker {
+  color: var(--label-2);
+  font-weight: 600;
+}
+.qr {
+  justify-self: center;
+  width: 176px;
+  height: 176px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #fff;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 0.5px var(--separator);
+}
+.secret {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+.secretRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.secretCode {
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  user-select: all;
+  overflow-wrap: anywhere;
+}

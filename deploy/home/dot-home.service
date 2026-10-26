@@ -1,0 +1,50 @@
+# Without Docker: install dot-home to /usr/local/bin, OSX-KVM to /opt/osx-kvm, the config
+# to /etc/dot-home/config.toml, then `systemctl enable --now dot-home`.
+[Unit]
+Description=Dot Home
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dot-home
+Group=dot-home
+SupplementaryGroups=kvm
+ExecStart=/usr/local/bin/dot-home --config /etc/dot-home/config.toml serve
+# VMs are daemonized; restarting the server must not kill them.
+KillMode=process
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=60
+UMask=0077
+StateDirectory=dot-home
+StateDirectoryMode=0700
+# A tmpfs for the moments a Mac's disk key is handed to QEMU in a file.
+RuntimeDirectory=dot-home
+RuntimeDirectoryMode=0700
+RuntimeDirectoryPreserve=yes
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+NoNewPrivileges=yes
+PrivateTmp=yes
+DeviceAllow=/dev/kvm rw
+DevicePolicy=closed
+ProtectSystem=strict
+ReadWritePaths=/var/lib/dot-home
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+SystemCallArchitectures=native
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

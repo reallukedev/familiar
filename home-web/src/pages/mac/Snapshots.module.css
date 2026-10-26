@@ -1,0 +1,8 @@
+.loading {
+  margin-top: var(--group-gap);
+}
+.form {
+  display: grid;
+  gap: 16px;
+  padding: 8px 0;
+}

@@ -1,0 +1,17 @@
+.form {
+  display: grid;
+  min-width: 0;
+}
+/* The sheet's description already sits above; the first group needs less room. */
+.form > :first-child {
+  margin-top: 16px;
+}
+.form > section {
+  margin-top: 22px;
+}
+.error {
+  color: var(--red-text);
+}
+.warn {
+  color: var(--orange-text);
+}
